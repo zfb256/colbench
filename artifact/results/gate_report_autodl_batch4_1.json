@@ -1,0 +1,94 @@
+{
+  "gate_schema": 3,
+  "generated_at_utc": "2026-08-08T23:43:45.471056+00:00",
+  "boot_id": "7cc05aa1-d33a-4e26-838c-6879c9cc7bbe",
+  "platform": {
+    "platform": "Linux-5.15.0-86-generic-x86_64-with-glibc2.35",
+    "python": "3.12.3",
+    "processor": "x86_64",
+    "logical_cores": 192,
+    "physical_cores": 96,
+    "ram_gb": 405.2,
+    "pyarrow": "25.0.0",
+    "disk_io_is_real": true,
+    "native_thread_env": {
+      "LANCE_CPU_THREADS": null,
+      "LANCE_IO_THREADS": null,
+      "RAYON_NUM_THREADS": null,
+      "TOKIO_WORKER_THREADS": null
+    },
+    "lance": "9.0.0",
+    "vortex": "0.83.0"
+  },
+  "device": {
+    "path": "/root/autodl-tmp/colbench-work",
+    "mount": "/root/autodl-tmp",
+    "fstype": "xfs",
+    "device": "/dev/md0",
+    "suspect": false,
+    "note": "local filesystem xfs on /dev/md0",
+    "rotational": false,
+    "virtualized": false,
+    "transport_hint": null
+  },
+  "raid": {
+    "detected": true,
+    "device": "/dev/md0",
+    "sync_action": "idle",
+    "sync_completed": "none",
+    "sync_speed_kib_s": "none",
+    "degraded": "0",
+    "mismatch_cnt": "0",
+    "mdstat": "Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] \nmd0 : active raid1 nvme0n1[1] nvme2n1[0]\n      7501333824 blocks super 1.2 [2/2] [UU]\n      bitmap: 28/56 pages [112KB], 65536KB chunk\n\nunused devices: <none>"
+  },
+  "formats_live": [
+    "parquet",
+    "lance"
+  ],
+  "formats_missing": [
+    "vortex"
+  ],
+  "free_gb": 256.6,
+  "seq_read_mbps": 1110,
+  "seq_read_certified": true,
+  "random_read": {
+    "qualified": true,
+    "median_ms": 0.091582,
+    "p95_ms": 0.119413,
+    "iops": 10180.345887856067,
+    "worst_median_ms": 0.096122,
+    "worst_iops": 9796.498410020655,
+    "trials": [
+      {
+        "median_ms": 0.089742,
+        "p95_ms": 0.104422,
+        "iops": 10779.702628428367
+      },
+      {
+        "median_ms": 0.096122,
+        "p95_ms": 0.142193,
+        "iops": 9796.498410020655
+      },
+      {
+        "median_ms": 0.091097,
+        "p95_ms": 0.108102,
+        "iops": 10015.901025370042
+      }
+    ],
+    "detail": "all 3 trials passed HDD-exclusion thresholds (median <= 5.0ms, IOPS >= 250)"
+  },
+  "eviction_supported": true,
+  "eviction_ratio": 2.6,
+  "disk_io_is_real": true,
+  "storage_qualification": {
+    "qualified": true,
+    "storage_class": "verified non-rotational block storage",
+    "blockers": [],
+    "caveats": []
+  },
+  "storage_qualified": true,
+  "blockers": [],
+  "degraded": [
+    "formats unavailable: vortex"
+  ]
+}

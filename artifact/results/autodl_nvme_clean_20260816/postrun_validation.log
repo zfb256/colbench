@@ -1,0 +1,67 @@
+2026-08-16T09:18:09+00:00
+loaded 72 records from 6 file(s)
+all 36 records usable
+
+== shuffle-locality sweep (median seconds) ==
+format              lance     parquet
+access_window                        
+362039.0        2411.01ms  12079.19ms
+
+== speedup over parquet (>1 means faster) ==
+format          lance  parquet
+access_window                 
+362039.0        5.01x    1.00x
+
+== crossovers ==
+  NONE - 'lance' leads at every window.
+  This is the negative outcome for C2: shuffle locality does
+  not change the recommendation. Lean on C4 instead.
+  wrote /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/figures/fig2_window_sweep.png
+
+wrote /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/figures/fig1_projection.png
+
+== chunk-size sensitivity (swing = worst/best across chunk sizes) ==
+                       access_label  format      best      worst  n_chunks     swing  best_chunk_rows
+                  A1.scan(cols=all)   lance 69.121180  73.225385         6  1.059377           131072
+                  A1.scan(cols=all) parquet 50.462029  83.880096         6  1.662242          1048576
+                   A2.scan(cols=10)   lance  3.848630   4.598606         6  1.194868           524288
+                   A2.scan(cols=10) parquet  2.514059  13.070026         6  5.198775           524288
+A3.shuffle(W=362039,B=4096,cols=10)   lance  2.250098   2.813420         6  1.250355           524288
+A3.shuffle(W=362039,B=4096,cols=10) parquet  5.092359 396.842264         6 77.928967           131072
+
+== C4: advantage at library defaults vs independent tuning ==
+                       access_label format  speedup_at_defaults  speedup_when_tuned  gap_shrinkage
+                  A1.scan(cols=all)  lance             0.717351            0.730052       0.982603
+                   A2.scan(cols=10)  lance             0.606305            0.653235       0.928159
+A3.shuffle(W=362039,B=4096,cols=10)  lance             3.180958            2.263172       1.405531
+
+  gap_shrinkage > 1 means the advantage reported at defaults
+  partly disappears once each format is tuned independently.
+  wrote /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/figures/fig4_chunk_effect.png
+
+== on-disk size ==
+ format  chunk_rows  size_mb
+  lance        1024   6487.7
+  lance        8192   6487.7
+  lance       32768   6487.7
+  lance      131072   6487.7
+  lance      524288   6487.7
+  lance     1048576   6487.7
+parquet        1024   4019.4
+parquet        8192   3072.7
+parquet       32768   2950.4
+parquet      131072   2952.0
+parquet      524288   2864.1
+parquet     1048576   2826.1
+    1024: 396.842s CI [395.638, 397.282], P(best)=0.000
+    8192: 52.603s CI [52.335, 53.459], P(best)=0.000
+   32768: 16.247s CI [16.144, 16.346], P(best)=0.000
+  131072: 5.092s CI [5.026, 5.210], P(best)=1.000
+  524288: 5.451s CI [5.386, 5.530], P(best)=0.000
+ 1048576: 7.911s CI [7.810, 8.034], P(best)=0.000
+wrote /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/bootstrap_chunk_uncertainty.json
+wrote /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/seed_sensitivity.json
+final_action=idle
+final_mismatch=0
+final_degraded=0
+POSTRUN_VALIDATION_COMPLETE

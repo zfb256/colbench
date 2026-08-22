@@ -1,0 +1,55 @@
+colbench D1 gate
+host: Linux-5.15.0-86-generic-x86_64-with-glibc2.35
+work: /root/autodl-tmp/colbench-work    data: /root/autodl-tmp/colbench-data
+
+0. device under test
+--------------------
+  work dir : /root/autodl-tmp/colbench-work
+  mount    : /root/autodl-tmp
+  fstype   : xfs
+  device   : /dev/md0
+  rotation : solid state
+  OK       : local filesystem xfs on /dev/md0
+
+0b. RAID background state
+-------------------------
+  action       : idle
+  completed    : none
+  speed KiB/s  : none
+  degraded     : 0
+  mismatch_cnt : 0
+
+1. format adapters
+------------------
+  OK    parquet   25.0.0
+  OK    lance     9.0.0
+  MISS  vortex    0.83.0 imports but is benchmark-incompatible: Python writer has no none/zstd codec selector or physical chunk_rows control
+
+2. disk space
+-------------
+  OK  321.3 GB free at /root/autodl-tmp/colbench-work  (want >= 60 GB)
+
+3. page-cache eviction
+----------------------
+  OK    page-cache eviction WORKS here: cold=179.3ms warm=66.5ms worst-ratio=2.67x -- every one of 3 trials showed a cold penalty
+
+4. sequential read throughput
+-----------------------------
+  OK  1559 MB/s  (want >= 300 MB/s)
+
+5. cold random-read qualification
+---------------------------------
+  OK    cold random read RULES OUT HDD-LIKE SEEKS: median=0.11ms p95=0.30ms iops=7197; all 3 trials passed HDD-exclusion thresholds (median <= 5.0ms, IOPS >= 250)
+
+6. I/O accounting
+-----------------
+  OK    read_bytes is device-level
+
+verdict
+-------
+  DEGRADED: formats unavailable: vortex
+
+  -> qualified-scope performance work can proceed here
+     resolve or explicitly report the reduced-scope items
+
+wrote /root/autodl-tmp/colbench_transfer/results/gate_report.json

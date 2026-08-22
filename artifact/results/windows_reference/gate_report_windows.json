@@ -1,0 +1,34 @@
+{
+  "platform": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.12.10",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "logical_cores": 16,
+    "physical_cores": 12,
+    "ram_gb": 16.9,
+    "pyarrow": "25.0.0",
+    "disk_io_is_real": false,
+    "lance": "9.0.0",
+    "vortex": null
+  },
+  "formats_live": [
+    "parquet",
+    "lance"
+  ],
+  "formats_missing": [
+    "vortex"
+  ],
+  "free_gb": 76.6,
+  "seq_read_mbps": null,
+  "seq_read_certified": false,
+  "eviction_supported": false,
+  "eviction_ratio": 1.44,
+  "disk_io_is_real": false,
+  "blockers": [],
+  "degraded": [
+    "storage class uncertified (eviction failed)",
+    "formats unavailable: vortex",
+    "no page-cache eviction - warm-cache measurements only",
+    "no device-level I/O accounting"
+  ]
+}

@@ -1,0 +1,50 @@
+colbench D1 gate
+host: Linux-5.10.134-19.1.al8.x86_64-x86_64-with-glibc2.32
+work: /root/colbench-work    data: /root/colbench-data
+
+0. device under test
+--------------------
+  work dir : /root/colbench-work
+  mount    : /root
+  fstype   : ext4
+  device   : /dev/vda3
+  rotation : ROTA=1 (virtual-device hint; physical media unknown)
+  OK       : local filesystem ext4 on /dev/vda3
+
+1. format adapters
+------------------
+  OK    parquet   25.0.0
+  OK    lance     9.0.0
+  MISS  vortex    0.83.0 imports but is benchmark-incompatible: Python writer has no none/zstd codec selector or physical chunk_rows control
+
+2. disk space
+-------------
+  OK  62.2 GB free at /root/colbench-work  (want >= 60 GB)
+
+3. page-cache eviction
+----------------------
+  OK    page-cache eviction WORKS here: cold=1428.8ms warm=255.0ms worst-ratio=5.21x -- every one of 3 trials showed a cold penalty
+
+4. sequential read throughput
+-----------------------------
+  SLOW  163 MB/s  (want >= 300 MB/s)
+  -> looks like a spinning disk or network storage. Results would
+     make the format comparison storage-bound and non-comparable.
+
+5. cold random-read qualification
+---------------------------------
+  OK    cold random read RULES OUT HDD-LIKE SEEKS: median=0.30ms p95=0.53ms iops=3062; all 3 trials passed HDD-exclusion thresholds (median <= 5.0ms, IOPS >= 250)
+
+6. I/O accounting
+-----------------
+  OK    read_bytes is device-level
+
+verdict
+-------
+  CAVEAT: kernel ROTA=1 is ignored only as a virtual-device hint; measured cold random access rules out HDD-like seeks
+  CAVEAT: provider backend and transport are unknown; report virtual block storage and do not describe it as NVMe or local SSD
+  BLOCKED: certified sequential throughput is only 163 MB/s (< 300 MB/s)
+
+  -> do not run performance measurements until the blockers are fixed
+
+wrote /root/colbench_transfer/results/gate_report.json

@@ -1,0 +1,21 @@
+timestamp_utc=2026-08-13T18:27:42+00:00
+phase=end
+exit_code=0
+git_commit=a958f97d15346a0d33e74fdefd6043205b07e354
+boot_id=06c3d9c3-7cf1-4f9d-b1a4-8d9fb345df51
+raid_action=none
+COLBENCH_WORK=/root/colbench-work
+COLBENCH_DATA=/root/colbench-data
+COLBENCH_RESULTS=/root/colbench_transfer/results
+TARGET SOURCE           FSTYPE OPTIONS
+/root  /dev/vda3[/root] ext4   rw,nosuid,nodev,relatime
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/vda3      ext4   79G   27G   49G  36% /root
+NAME   TYPE  SIZE ROTA MODEL SERIAL               MOUNTPOINT
+vda    disk   80G    1       uf6byxmyutpqmv2qrcua 
+├─vda1 part    2M    1                            
+├─vda2 part  200M    1                            /boot/efi
+└─vda3 part 79.8G    1                            /
+Personalities : 
+unused devices: <none>
+ 02:27:42 up 62 days,  9:12,  2 users,  load average: 1.15, 1.12, 1.07

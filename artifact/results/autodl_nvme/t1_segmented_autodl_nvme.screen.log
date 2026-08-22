@@ -1,0 +1,177 @@
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=1024 start 2026-08-15T10:46:25+00:00 ===
+
+WARNING: running with an explicit unqualified-storage override.
+  - repeated gate stability has not been qualified
+Record this run as provider virtual block storage, not NVMe/local SSD.
+disk: need ~18.3 GB, free 157.0 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=1024)
+  parquet  c=1024     A1.scan(cols=all)                      cold t=1  87352.68ms (relIQR 0%)
+  writing clickbench_32p -> lance (chunk_rows=1024)
+  lance    c=1024     A1.scan(cols=all)                      cold t=1  67609.35ms (relIQR 3%)
+  parquet  c=1024     A1.scan(cols=all)                      warm t=1  85690.62ms (relIQR 1%)
+  lance    c=1024     A1.scan(cols=all)                      warm t=1  60420.38ms (relIQR 1%)
+  lance    c=1024     A2.scan(cols=10)                       cold t=1   3031.31ms (relIQR 5%)
+  parquet  c=1024     A2.scan(cols=10)                       cold t=1  14351.82ms (relIQR 1%)
+  lance    c=1024     A2.scan(cols=10)                       warm t=1   2077.55ms (relIQR 4%)
+  parquet  c=1024     A2.scan(cols=10)                       warm t=1  13434.28ms (relIQR 4%)
+  parquet  c=1024     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1 430602.10ms (relIQR 0%)
+  lance    c=1024     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   1977.93ms (relIQR 1%)
+  parquet  c=1024     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1 422528.45ms (relIQR 2%)
+  lance    c=1024     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1331.03ms (relIQR 3%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/fig4_clickbench_32p_c1024.jsonl
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=1024 complete 2026-08-15T13:34:16+00:00 ===
+pruned regenerable layouts for completed chunk=1024
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=8192 start 2026-08-15T13:34:16+00:00 ===
+
+WARNING: running with an explicit unqualified-storage override.
+  - repeated gate stability has not been qualified
+Record this run as provider virtual block storage, not NVMe/local SSD.
+disk: need ~18.3 GB, free 157.0 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=8192)
+  parquet  c=8192     A1.scan(cols=all)                      cold t=1  59027.85ms (relIQR 1%)
+  writing clickbench_32p -> lance (chunk_rows=8192)
+  lance    c=8192     A1.scan(cols=all)                      cold t=1  71185.34ms (relIQR 1%)
+  parquet  c=8192     A1.scan(cols=all)                      warm t=1  57663.71ms (relIQR 1%)
+  lance    c=8192     A1.scan(cols=all)                      warm t=1  61611.10ms (relIQR 1%)
+  lance    c=8192     A2.scan(cols=10)                       cold t=1   3203.70ms (relIQR 8%)
+  parquet  c=8192     A2.scan(cols=10)                       cold t=1   4172.90ms (relIQR 4%)
+  lance    c=8192     A2.scan(cols=10)                       warm t=1   2120.97ms (relIQR 10%)
+  parquet  c=8192     A2.scan(cols=10)                       warm t=1   3776.43ms (relIQR 4%)
+  parquet  c=8192     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1  55921.93ms (relIQR 1%)
+  lance    c=8192     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2367.52ms (relIQR 9%)
+  parquet  c=8192     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1  55071.07ms (relIQR 1%)
+  lance    c=8192     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1344.95ms (relIQR 5%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/fig4_clickbench_32p_c8192.jsonl
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=8192 complete 2026-08-15T14:31:20+00:00 ===
+pruned regenerable layouts for completed chunk=8192
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=32768 start 2026-08-15T14:31:20+00:00 ===
+
+WARNING: running with an explicit unqualified-storage override.
+  - repeated gate stability has not been qualified
+Record this run as provider virtual block storage, not NVMe/local SSD.
+disk: need ~18.3 GB, free 157.0 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=32768)
+  parquet  c=32768    A1.scan(cols=all)                      cold t=1  56236.73ms (relIQR 0%)
+  writing clickbench_32p -> lance (chunk_rows=32768)
+  lance    c=32768    A1.scan(cols=all)                      cold t=1  70168.07ms (relIQR 2%)
+  parquet  c=32768    A1.scan(cols=all)                      warm t=1  55154.27ms (relIQR 0%)
+  lance    c=32768    A1.scan(cols=all)                      warm t=1  61705.87ms (relIQR 1%)
+  lance    c=32768    A2.scan(cols=10)                       cold t=1   3640.44ms (relIQR 7%)
+  parquet  c=32768    A2.scan(cols=10)                       cold t=1   2828.34ms (relIQR 8%)
+  lance    c=32768    A2.scan(cols=10)                       warm t=1   2134.96ms (relIQR 5%)
+  parquet  c=32768    A2.scan(cols=10)                       warm t=1   2565.13ms (relIQR 10%)
+  parquet  c=32768    A3.shuffle(W=362039,B=4096,cols=10)    cold t=1  16483.43ms (relIQR 1%)
+  lance    c=32768    A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2303.75ms (relIQR 3%)
+  parquet  c=32768    A3.shuffle(W=362039,B=4096,cols=10)    warm t=1  15905.70ms (relIQR 3%)
+  lance    c=32768    A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1466.52ms (relIQR 4%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/fig4_clickbench_32p_c32768.jsonl
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=32768 complete 2026-08-15T15:16:37+00:00 ===
+pruned regenerable layouts for completed chunk=32768
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=131072 start 2026-08-15T15:16:38+00:00 ===
+
+WARNING: running with an explicit unqualified-storage override.
+  - repeated gate stability has not been qualified
+Record this run as provider virtual block storage, not NVMe/local SSD.
+disk: need ~18.3 GB, free 157.0 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=131072)
+  parquet  c=131072   A1.scan(cols=all)                      cold t=1  56557.49ms (relIQR 1%)
+  writing clickbench_32p -> lance (chunk_rows=131072)
+  lance    c=131072   A1.scan(cols=all)                      cold t=1  72848.84ms (relIQR 1%)
+  parquet  c=131072   A1.scan(cols=all)                      warm t=1  55583.19ms (relIQR 1%)
+  lance    c=131072   A1.scan(cols=all)                      warm t=1  62336.83ms (relIQR 1%)
+  lance    c=131072   A2.scan(cols=10)                       cold t=1   3934.83ms (relIQR 7%)
+  parquet  c=131072   A2.scan(cols=10)                       cold t=1   2629.12ms (relIQR 2%)
+  lance    c=131072   A2.scan(cols=10)                       warm t=1   2093.78ms (relIQR 4%)
+  parquet  c=131072   A2.scan(cols=10)                       warm t=1   2654.92ms (relIQR 8%)
+  parquet  c=131072   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   5942.14ms (relIQR 2%)
+  lance    c=131072   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2445.89ms (relIQR 3%)
+  parquet  c=131072   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   5749.28ms (relIQR 3%)
+  lance    c=131072   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1433.95ms (relIQR 4%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/fig4_clickbench_32p_c131072.jsonl
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=131072 complete 2026-08-15T15:59:55+00:00 ===
+pruned regenerable layouts for completed chunk=131072
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=524288 start 2026-08-15T15:59:55+00:00 ===
+
+WARNING: running with an explicit unqualified-storage override.
+  - repeated gate stability has not been qualified
+Record this run as provider virtual block storage, not NVMe/local SSD.
+disk: need ~18.3 GB, free 157.0 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=524288)
+  parquet  c=524288   A1.scan(cols=all)                      cold t=1  54808.69ms (relIQR 0%)
+  writing clickbench_32p -> lance (chunk_rows=524288)
+  lance    c=524288   A1.scan(cols=all)                      cold t=1  71236.49ms (relIQR 3%)
+  parquet  c=524288   A1.scan(cols=all)                      warm t=1  53864.03ms (relIQR 1%)
+  lance    c=524288   A1.scan(cols=all)                      warm t=1  62268.21ms (relIQR 1%)
+  lance    c=524288   A2.scan(cols=10)                       cold t=1   3545.02ms (relIQR 15%)
+  parquet  c=524288   A2.scan(cols=10)                       cold t=1   2382.67ms (relIQR 6%)
+  lance    c=524288   A2.scan(cols=10)                       warm t=1   2004.01ms (relIQR 6%)
+  parquet  c=524288   A2.scan(cols=10)                       warm t=1   2157.27ms (relIQR 5%)
+  parquet  c=524288   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   5559.32ms (relIQR 5%)
+  lance    c=524288   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2416.60ms (relIQR 5%)
+  parquet  c=524288   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   5493.76ms (relIQR 4%)
+  lance    c=524288   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1429.23ms (relIQR 3%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/fig4_clickbench_32p_c524288.jsonl
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=524288 complete 2026-08-15T16:42:22+00:00 ===
+pruned regenerable layouts for completed chunk=524288
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=1048576 start 2026-08-15T16:42:22+00:00 ===
+
+WARNING: running with an explicit unqualified-storage override.
+  - repeated gate stability has not been qualified
+Record this run as provider virtual block storage, not NVMe/local SSD.
+disk: need ~18.3 GB, free 157.0 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=1048576)
+  parquet  c=1048576  A1.scan(cols=all)                      cold t=1  54412.62ms (relIQR 1%)
+  writing clickbench_32p -> lance (chunk_rows=1048576)
+  lance    c=1048576  A1.scan(cols=all)                      cold t=1  72978.16ms (relIQR 2%)
+  parquet  c=1048576  A1.scan(cols=all)                      warm t=1  53734.59ms (relIQR 1%)
+  lance    c=1048576  A1.scan(cols=all)                      warm t=1  61826.69ms (relIQR 1%)
+  lance    c=1048576  A2.scan(cols=10)                       cold t=1   3586.55ms (relIQR 10%)
+  parquet  c=1048576  A2.scan(cols=10)                       cold t=1   2173.52ms (relIQR 3%)
+  lance    c=1048576  A2.scan(cols=10)                       warm t=1   2169.47ms (relIQR 4%)
+  parquet  c=1048576  A2.scan(cols=10)                       warm t=1   2077.61ms (relIQR 6%)
+  parquet  c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   8249.51ms (relIQR 0%)
+  lance    c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2322.43ms (relIQR 3%)
+  parquet  c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   8001.50ms (relIQR 1%)
+  lance    c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1444.93ms (relIQR 2%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/fig4_clickbench_32p_c1048576.jsonl
+fatal: not a git repository (or any parent up to mount point /root)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+=== checkpoint chunk=1048576 complete 2026-08-15T17:25:26+00:00 ===
+pruned regenerable layouts for completed chunk=1048576
+All six T1 checkpoints are complete and individually boundary-qualified.
+Report with:
+/root/autodl-tmp/colbench/artifact/.venv/bin/python scripts/report.py /root/autodl-tmp/colbench/artifact/results/fig4_clickbench_32p_c{1024,8192,32768,131072,524288,1048576}.jsonl --cache-mode cold --threads 1 --dataset clickbench_32p

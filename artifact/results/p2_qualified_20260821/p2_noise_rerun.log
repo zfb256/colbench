@@ -1,0 +1,102 @@
+=== noise-threshold rerun start 2026-08-21T15:23:18+00:00 affinity=47 chunks=524288,1048576 ===
+fixed ORC rate dataset=tpch_sf1_lineitem bytes_per_row=27.208855
+checkpoint tpch_sf1_lineitem chunk=1024 already valid; skipping
+checkpoint tpch_sf1_lineitem chunk=8192 already valid; skipping
+checkpoint tpch_sf1_lineitem chunk=32768 already valid; skipping
+checkpoint tpch_sf1_lineitem chunk=131072 already valid; skipping
+checkpoint tpch_sf1_lineitem chunk=524288 already valid; skipping
+checkpoint tpch_sf1_lineitem chunk=1048576 already valid; skipping
+fixed ORC rate dataset=tpcds_sf1_store_sales bytes_per_row=31.521285
+checkpoint tpcds_sf1_store_sales chunk=1024 already valid; skipping
+checkpoint tpcds_sf1_store_sales chunk=8192 already valid; skipping
+checkpoint tpcds_sf1_store_sales chunk=32768 already valid; skipping
+checkpoint tpcds_sf1_store_sales chunk=131072 already valid; skipping
+checkpoint tpcds_sf1_store_sales chunk=524288 already valid; skipping
+checkpoint tpcds_sf1_store_sales chunk=1048576 already valid; skipping
+fixed ORC rate dataset=clickbench_32p bytes_per_row=83.07174
+checkpoint clickbench_32p chunk=1024 already valid; skipping
+checkpoint clickbench_32p chunk=8192 already valid; skipping
+checkpoint clickbench_32p chunk=32768 already valid; skipping
+checkpoint clickbench_32p chunk=131072 already valid; skipping
+=== P2 checkpoint dataset=clickbench_32p chunk=524288 start 2026-08-21T15:23:21+00:00 ===
+disk: need ~26.0 GB, free 74.2 GB
+preset=p2 dataset=clickbench_32p rows=32,000,000 cells=30 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=524288)
+  parquet  c=524288   A1.scan(cols=all)                      cold t=1  45904.18ms (relIQR 3%)
+  writing clickbench_32p -> lance (chunk_rows=524288)
+  lance    c=524288   A1.scan(cols=all)                      cold t=1  63930.85ms (relIQR 3%)
+  writing clickbench_32p -> orc (chunk_rows=524288)
+  orc rate for clickbench_32p: 83.072 bytes/row
+  orc      c=524288   A1.scan(cols=all)                      cold t=1  49987.51ms (relIQR 6%)
+  parquet  c=524288   A1.scan(cols=all)                      warm t=1  50322.91ms (relIQR 14%)
+  lance    c=524288   A1.scan(cols=all)                      warm t=1  55273.44ms (relIQR 5%)
+  orc      c=524288   A1.scan(cols=all)                      warm t=1  47712.62ms (relIQR 5%)
+  orc      c=524288   A2.scan(cols=10)                       cold t=1   3123.66ms (relIQR 2%)
+  lance    c=524288   A2.scan(cols=10)                       cold t=1   4641.32ms (relIQR 16%)
+  parquet  c=524288   A2.scan(cols=10)                       cold t=1   2762.29ms (relIQR 25%)  <-- NOISY
+  orc      c=524288   A2.scan(cols=10)                       warm t=1   2102.51ms (relIQR 2%)
+  lance    c=524288   A2.scan(cols=10)                       warm t=1   2048.46ms (relIQR 3%)
+  parquet  c=524288   A2.scan(cols=10)                       warm t=1   2062.18ms (relIQR 9%)
+  parquet  c=524288   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   3888.93ms (relIQR 8%)
+  lance    c=524288   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2438.66ms (relIQR 15%)
+  orc      c=524288   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   4782.32ms (relIQR 9%)
+  parquet  c=524288   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   4520.59ms (relIQR 32%)  <-- NOISY
+  lance    c=524288   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1585.23ms (relIQR 3%)
+  orc      c=524288   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   3748.33ms (relIQR 1%)
+  orc      c=524288   A4.point(n=64,cols=10)                 cold t=1   2847.33ms (relIQR 3%)
+  lance    c=524288   A4.point(n=64,cols=10)                 cold t=1    183.33ms (relIQR 22%)
+  parquet  c=524288   A4.point(n=64,cols=10)                 cold t=1   2328.92ms (relIQR 1%)
+  orc      c=524288   A4.point(n=64,cols=10)                 warm t=1   2358.22ms (relIQR 7%)
+  lance    c=524288   A4.point(n=64,cols=10)                 warm t=1     91.83ms (relIQR 3%)
+  parquet  c=524288   A4.point(n=64,cols=10)                 warm t=1   2146.91ms (relIQR 4%)
+  parquet  c=524288   A5.filter(WatchID<4657804033734711819,cols=10) cold t=1   2754.00ms (relIQR 4%)
+  lance    c=524288   A5.filter(WatchID<4657804033734711819,cols=10) cold t=1   3357.94ms (relIQR 3%)
+  orc      c=524288   A5.filter(WatchID<4657804033734711819,cols=10) cold t=1   3224.39ms (relIQR 6%)
+  parquet  c=524288   A5.filter(WatchID<4657804033734711819,cols=10) warm t=1   2667.73ms (relIQR 11%)
+  lance    c=524288   A5.filter(WatchID<4657804033734711819,cols=10) warm t=1   1967.18ms (relIQR 6%)
+  orc      c=524288   A5.filter(WatchID<4657804033734711819,cols=10) warm t=1   2451.01ms (relIQR 7%)
+
+wrote 30 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_raid5_20260820/p2_clickbench_32p_c524288.jsonl
+WARNING: 2/30 cells have relative IQR > 25%; raise --repeats or quiesce the machine before trusting them
+=== P2 checkpoint dataset=clickbench_32p chunk=524288 complete 2026-08-21T16:26:41+00:00 ===
+=== P2 checkpoint dataset=clickbench_32p chunk=1048576 start 2026-08-21T16:26:41+00:00 ===
+disk: need ~26.0 GB, free 74.2 GB
+preset=p2 dataset=clickbench_32p rows=32,000,000 cells=30 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=1048576)
+  parquet  c=1048576  A1.scan(cols=all)                      cold t=1  45140.65ms (relIQR 1%)
+  writing clickbench_32p -> lance (chunk_rows=1048576)
+  lance    c=1048576  A1.scan(cols=all)                      cold t=1  62100.79ms (relIQR 1%)
+  writing clickbench_32p -> orc (chunk_rows=1048576)
+  orc rate for clickbench_32p: 83.072 bytes/row
+  orc      c=1048576  A1.scan(cols=all)                      cold t=1  49421.13ms (relIQR 3%)
+  parquet  c=1048576  A1.scan(cols=all)                      warm t=1  45932.14ms (relIQR 4%)
+  lance    c=1048576  A1.scan(cols=all)                      warm t=1  57152.65ms (relIQR 5%)
+  orc      c=1048576  A1.scan(cols=all)                      warm t=1  49792.35ms (relIQR 4%)
+  orc      c=1048576  A2.scan(cols=10)                       cold t=1   2854.60ms (relIQR 5%)
+  lance    c=1048576  A2.scan(cols=10)                       cold t=1   4127.41ms (relIQR 7%)
+  parquet  c=1048576  A2.scan(cols=10)                       cold t=1   2453.97ms (relIQR 4%)
+  orc      c=1048576  A2.scan(cols=10)                       warm t=1   2111.72ms (relIQR 1%)
+  lance    c=1048576  A2.scan(cols=10)                       warm t=1   2096.98ms (relIQR 5%)
+  parquet  c=1048576  A2.scan(cols=10)                       warm t=1   2162.79ms (relIQR 4%)
+  parquet  c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   9210.04ms (relIQR 14%)
+  lance    c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2670.82ms (relIQR 10%)
+  orc      c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   6587.93ms (relIQR 5%)
+  parquet  c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   6239.78ms (relIQR 4%)
+  lance    c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1645.68ms (relIQR 5%)
+  orc      c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   5969.94ms (relIQR 2%)
+  orc      c=1048576  A4.point(n=64,cols=10)                 cold t=1   4479.50ms (relIQR 1%)
+  lance    c=1048576  A4.point(n=64,cols=10)                 cold t=1    175.42ms (relIQR 2%)
+  parquet  c=1048576  A4.point(n=64,cols=10)                 cold t=1   4497.20ms (relIQR 4%)
+  orc      c=1048576  A4.point(n=64,cols=10)                 warm t=1   3943.22ms (relIQR 2%)
+  lance    c=1048576  A4.point(n=64,cols=10)                 warm t=1     90.71ms (relIQR 3%)
+  parquet  c=1048576  A4.point(n=64,cols=10)                 warm t=1   4140.23ms (relIQR 1%)
+  parquet  c=1048576  A5.filter(WatchID<4657804033734711819,cols=10) cold t=1   2795.30ms (relIQR 3%)
+  lance    c=1048576  A5.filter(WatchID<4657804033734711819,cols=10) cold t=1   3617.74ms (relIQR 5%)
+  orc      c=1048576  A5.filter(WatchID<4657804033734711819,cols=10) cold t=1   2637.24ms (relIQR 2%)
+  parquet  c=1048576  A5.filter(WatchID<4657804033734711819,cols=10) warm t=1   2519.07ms (relIQR 7%)
+  lance    c=1048576  A5.filter(WatchID<4657804033734711819,cols=10) warm t=1   1902.64ms (relIQR 3%)
+  orc      c=1048576  A5.filter(WatchID<4657804033734711819,cols=10) warm t=1   2357.91ms (relIQR 3%)
+
+wrote 30 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_raid5_20260820/p2_clickbench_32p_c1048576.jsonl
+=== P2 checkpoint dataset=clickbench_32p chunk=1048576 complete 2026-08-21T17:30:48+00:00 ===
+All 18 P2 dataset/chunk checkpoints are complete and boundary-qualified.

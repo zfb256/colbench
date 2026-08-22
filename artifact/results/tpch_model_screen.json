@@ -1,0 +1,80 @@
+[
+  {
+    "dataset": "tpch_sf1_lineitem",
+    "access_label": "A3.shuffle(W=156783,B=4096,cols=2)",
+    "columns": "l_orderkey,l_returnflag",
+    "chunk_rows": 1024,
+    "union_groups": 4728,
+    "per_call_groups": 9858,
+    "projected_columns": 2,
+    "union_mb": 7.317392,
+    "per_call_mb": 15.247337,
+    "two_term_union_mb": 66.039152,
+    "two_term_per_call_mb": 137.683697
+  },
+  {
+    "dataset": "tpch_sf1_lineitem",
+    "access_label": "A3.shuffle(W=156783,B=4096,cols=2)",
+    "columns": "l_orderkey,l_returnflag",
+    "chunk_rows": 8192,
+    "union_groups": 604,
+    "per_call_groups": 1290,
+    "projected_columns": 2,
+    "union_mb": 6.571168,
+    "per_call_mb": 14.027146,
+    "two_term_union_mb": 14.072848,
+    "two_term_per_call_mb": 30.048946
+  },
+  {
+    "dataset": "tpch_sf1_lineitem",
+    "access_label": "A3.shuffle(W=156783,B=4096,cols=2)",
+    "columns": "l_orderkey,l_returnflag",
+    "chunk_rows": 32768,
+    "union_groups": 160,
+    "per_call_groups": 371,
+    "projected_columns": 2,
+    "union_mb": 8.729384,
+    "per_call_mb": 20.23878,
+    "two_term_union_mb": 10.716584,
+    "two_term_per_call_mb": 24.8466
+  },
+  {
+    "dataset": "tpch_sf1_lineitem",
+    "access_label": "A3.shuffle(W=156783,B=4096,cols=2)",
+    "columns": "l_orderkey,l_returnflag",
+    "chunk_rows": 131072,
+    "union_groups": 42,
+    "per_call_groups": 139,
+    "projected_columns": 2,
+    "union_mb": 10.335852,
+    "per_call_mb": 34.253849,
+    "two_term_union_mb": 10.857492,
+    "two_term_per_call_mb": 35.980229
+  },
+  {
+    "dataset": "tpch_sf1_lineitem",
+    "access_label": "A3.shuffle(W=156783,B=4096,cols=2)",
+    "columns": "l_orderkey,l_returnflag",
+    "chunk_rows": 524288,
+    "union_groups": 12,
+    "per_call_groups": 79,
+    "projected_columns": 2,
+    "union_mb": 11.291754,
+    "per_call_mb": 78.058036,
+    "two_term_union_mb": 11.440794,
+    "two_term_per_call_mb": 79.039216
+  },
+  {
+    "dataset": "tpch_sf1_lineitem",
+    "access_label": "A3.shuffle(W=156783,B=4096,cols=2)",
+    "columns": "l_orderkey,l_returnflag",
+    "chunk_rows": 1048576,
+    "union_groups": 6,
+    "per_call_groups": 71,
+    "projected_columns": 2,
+    "union_mb": 7.435883,
+    "per_call_mb": 88.816473,
+    "two_term_union_mb": 7.510403,
+    "two_term_per_call_mb": 89.698293
+  }
+]

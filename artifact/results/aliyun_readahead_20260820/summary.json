@@ -1,0 +1,219 @@
+{
+  "native_read_ahead_kb": 128,
+  "doses_kb": [
+    32,
+    128,
+    512,
+    2048
+  ],
+  "groups": [
+    {
+      "read_ahead_kb": 32,
+      "small_chunk_k_mean_KB": 6.1815215400231835,
+      "small_chunk_k_spread_pct": 4.194330740834817,
+      "rows": [
+        {
+          "chunk_rows": 8192,
+          "read_bytes_median": 317640704.0,
+          "predicted_union_bytes": 192102554,
+          "row_groups_touched": 1994,
+          "k_KB_per_projected_column_group": 6.2957948846539615,
+          "eviction_verified": true,
+          "eviction_ratio": 4.986632306338011
+        },
+        {
+          "chunk_rows": 32768,
+          "read_bytes_median": 235753472.0,
+          "predicted_union_bytes": 203480133,
+          "row_groups_touched": 520,
+          "k_KB_per_projected_column_group": 6.206411346153846,
+          "eviction_verified": true,
+          "eviction_ratio": 4.986632306338011
+        },
+        {
+          "chunk_rows": 131072,
+          "read_bytes_median": 245002240.0,
+          "predicted_union_bytes": 235999126,
+          "row_groups_touched": 149,
+          "k_KB_per_projected_column_group": 6.042358389261745,
+          "eviction_verified": true,
+          "eviction_ratio": 4.986632306338011
+        },
+        {
+          "chunk_rows": 524288,
+          "read_bytes_median": 353087488.0,
+          "predicted_union_bytes": 282098237,
+          "row_groups_touched": 51,
+          "k_KB_per_projected_column_group": 139.19460980392157,
+          "eviction_verified": true,
+          "eviction_ratio": 4.986632306338011
+        },
+        {
+          "chunk_rows": 1048576,
+          "read_bytes_median": 360648704.0,
+          "predicted_union_bytes": 312729703,
+          "row_groups_touched": 29,
+          "k_KB_per_projected_column_group": 165.23793448275862,
+          "eviction_verified": true,
+          "eviction_ratio": 4.986632306338011
+        }
+      ]
+    },
+    {
+      "read_ahead_kb": 128,
+      "small_chunk_k_mean_KB": 6.1815215400231835,
+      "small_chunk_k_spread_pct": 4.194330740834817,
+      "rows": [
+        {
+          "chunk_rows": 8192,
+          "read_bytes_median": 317640704.0,
+          "predicted_union_bytes": 192102554,
+          "row_groups_touched": 1994,
+          "k_KB_per_projected_column_group": 6.2957948846539615,
+          "eviction_verified": true,
+          "eviction_ratio": 4.967712009789278
+        },
+        {
+          "chunk_rows": 32768,
+          "read_bytes_median": 235753472.0,
+          "predicted_union_bytes": 203480133,
+          "row_groups_touched": 520,
+          "k_KB_per_projected_column_group": 6.206411346153846,
+          "eviction_verified": true,
+          "eviction_ratio": 4.967712009789278
+        },
+        {
+          "chunk_rows": 131072,
+          "read_bytes_median": 245002240.0,
+          "predicted_union_bytes": 235999126,
+          "row_groups_touched": 149,
+          "k_KB_per_projected_column_group": 6.042358389261745,
+          "eviction_verified": true,
+          "eviction_ratio": 4.967712009789278
+        },
+        {
+          "chunk_rows": 524288,
+          "read_bytes_median": 353136640.0,
+          "predicted_union_bytes": 282098237,
+          "row_groups_touched": 51,
+          "k_KB_per_projected_column_group": 139.2909862745098,
+          "eviction_verified": true,
+          "eviction_ratio": 4.967712009789278
+        },
+        {
+          "chunk_rows": 1048576,
+          "read_bytes_median": 360689664.0,
+          "predicted_union_bytes": 312729703,
+          "row_groups_touched": 29,
+          "k_KB_per_projected_column_group": 165.37917586206896,
+          "eviction_verified": true,
+          "eviction_ratio": 4.967712009789278
+        }
+      ]
+    },
+    {
+      "read_ahead_kb": 512,
+      "small_chunk_k_mean_KB": 6.1815215400231835,
+      "small_chunk_k_spread_pct": 4.194330740834817,
+      "rows": [
+        {
+          "chunk_rows": 8192,
+          "read_bytes_median": 317640704.0,
+          "predicted_union_bytes": 192102554,
+          "row_groups_touched": 1994,
+          "k_KB_per_projected_column_group": 6.2957948846539615,
+          "eviction_verified": true,
+          "eviction_ratio": 4.992849422173887
+        },
+        {
+          "chunk_rows": 32768,
+          "read_bytes_median": 235753472.0,
+          "predicted_union_bytes": 203480133,
+          "row_groups_touched": 520,
+          "k_KB_per_projected_column_group": 6.206411346153846,
+          "eviction_verified": true,
+          "eviction_ratio": 4.992849422173887
+        },
+        {
+          "chunk_rows": 131072,
+          "read_bytes_median": 245002240.0,
+          "predicted_union_bytes": 235999126,
+          "row_groups_touched": 149,
+          "k_KB_per_projected_column_group": 6.042358389261745,
+          "eviction_verified": true,
+          "eviction_ratio": 4.992849422173887
+        },
+        {
+          "chunk_rows": 524288,
+          "read_bytes_median": 353730560.0,
+          "predicted_union_bytes": 282098237,
+          "row_groups_touched": 51,
+          "k_KB_per_projected_column_group": 140.45553529411765,
+          "eviction_verified": true,
+          "eviction_ratio": 4.992849422173887
+        },
+        {
+          "chunk_rows": 1048576,
+          "read_bytes_median": 362835968.0,
+          "predicted_union_bytes": 312729703,
+          "row_groups_touched": 29,
+          "k_KB_per_projected_column_group": 172.78022413793104,
+          "eviction_verified": true,
+          "eviction_ratio": 4.992849422173887
+        }
+      ]
+    },
+    {
+      "read_ahead_kb": 2048,
+      "small_chunk_k_mean_KB": 6.1815215400231835,
+      "small_chunk_k_spread_pct": 4.194330740834817,
+      "rows": [
+        {
+          "chunk_rows": 8192,
+          "read_bytes_median": 317640704.0,
+          "predicted_union_bytes": 192102554,
+          "row_groups_touched": 1994,
+          "k_KB_per_projected_column_group": 6.2957948846539615,
+          "eviction_verified": true,
+          "eviction_ratio": 5.020345091148248
+        },
+        {
+          "chunk_rows": 32768,
+          "read_bytes_median": 235753472.0,
+          "predicted_union_bytes": 203480133,
+          "row_groups_touched": 520,
+          "k_KB_per_projected_column_group": 6.206411346153846,
+          "eviction_verified": true,
+          "eviction_ratio": 5.020345091148248
+        },
+        {
+          "chunk_rows": 131072,
+          "read_bytes_median": 245002240.0,
+          "predicted_union_bytes": 235999126,
+          "row_groups_touched": 149,
+          "k_KB_per_projected_column_group": 6.042358389261745,
+          "eviction_verified": true,
+          "eviction_ratio": 5.020345091148248
+        },
+        {
+          "chunk_rows": 524288,
+          "read_bytes_median": 485302272.0,
+          "predicted_union_bytes": 282098237,
+          "row_groups_touched": 51,
+          "k_KB_per_projected_column_group": 398.43928431372547,
+          "eviction_verified": true,
+          "eviction_ratio": 5.020345091148248
+        },
+        {
+          "chunk_rows": 1048576,
+          "read_bytes_median": 436293632.0,
+          "predicted_union_bytes": 312729703,
+          "row_groups_touched": 29,
+          "k_KB_per_projected_column_group": 426.08251379310343,
+          "eviction_verified": true,
+          "eviction_ratio": 5.020345091148248
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "pyarrow_version": "25.0.0",
+  "rows": 200000,
+  "columns": 3,
+  "seed": 20260817,
+  "compression": "uncompressed",
+  "requested_row_index_stride": 10000,
+  "stripe_layout_responds": true,
+  "stripe_counts_nonincreasing": true,
+  "row_index_stride_preserved": true,
+  "settings": [
+    {
+      "requested_stripe_size_bytes": 65536,
+      "file_size_bytes": 2461885,
+      "nstripes": 196,
+      "stripe_rows_histogram": {
+        "320": 1,
+        "1024": 195
+      },
+      "rows_accounted": 200000,
+      "row_index_stride": 10000
+    },
+    {
+      "requested_stripe_size_bytes": 262144,
+      "file_size_bytes": 2433286,
+      "nstripes": 98,
+      "stripe_rows_histogram": {
+        "1344": 1,
+        "2048": 97
+      },
+      "rows_accounted": 200000,
+      "row_index_stride": 10000
+    },
+    {
+      "requested_stripe_size_bytes": 1048576,
+      "file_size_bytes": 2407407,
+      "nstripes": 5,
+      "stripe_rows_histogram": {
+        "3392": 1,
+        "49152": 4
+      },
+      "rows_accounted": 200000,
+      "row_index_stride": 10000
+    },
+    {
+      "requested_stripe_size_bytes": 4194304,
+      "file_size_bytes": 2406535,
+      "nstripes": 1,
+      "stripe_rows_histogram": {
+        "200000": 1
+      },
+      "rows_accounted": 200000,
+      "row_index_stride": 10000
+    }
+  ]
+}

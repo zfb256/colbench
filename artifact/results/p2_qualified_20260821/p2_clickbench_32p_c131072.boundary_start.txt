@@ -1,0 +1,142 @@
+timestamp_utc=2026-08-21T11:45:33+00:00
+phase=start
+exit_code=not-run
+git_commit=unavailable
+boot_id=b6ffe757-8fa5-47bf-896f-b5f08ce2f9d8
+raid_action=idle
+raid_mismatch_cnt=0
+raid_degraded=0
+raid_members=[UUU]
+gate_report_sha256=c54e077637de6a88b3e87478d5a00664382a222775241e7dd8906d81c4b90c7a
+COLBENCH_WORK=/root/autodl-tmp/colbench-work
+COLBENCH_DATA=/root/autodl-tmp/colbench/artifact/data
+COLBENCH_RESULTS=/root/autodl-tmp/colbench/artifact/results/autodl_nvme_raid5_20260820
+TARGET           SOURCE                                                                       FSTYPE OPTIONS
+/root/autodl-tmp /dev/md0[/docker/volumes/autodl-container-d56wh1f4uf-1c381ded-storage/_data] xfs    rw,relatime,attr2,inode64,logbufs=8,logbsize=32k,sunit=1024,swidth=2048,prjquota
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/md0       xfs   150G   46G  105G  31% /root/autodl-tmp
+NAME        TYPE    SIZE ROTA MODEL                                    SERIAL               MOUNTPOINTS
+loop0       loop  115.3M    0                                                               
+loop1       loop   50.1M    0                                                               
+loop2       loop   50.1M    0                                                               
+loop3       loop   63.8M    0                                                               
+loop4       loop   63.8M    0                                                               
+loop5       loop     74M    0                                                               
+loop7       loop     74M    0                                                               
+loop8       loop  115.1M    0                                                               
+nbd0        disk      0B    0                                                               
+nbd1        disk      0B    0                                                               
+nbd2        disk      0B    0                                                               
+nbd3        disk      0B    0                                                               
+nbd4        disk      0B    0                                                               
+nbd5        disk      0B    0                                                               
+nbd6        disk      0B    0                                                               
+nbd7        disk      0B    0                                                               
+nvme0n1     disk      7T    0 SAMSUNG MZQLB7T6HALA-00W07               S7LBNS0X317118Y      
+└─md0       raid5    14T    1                                                               /etc/hostname
+                                                                                            /etc/resolv.conf
+                                                                                            /etc/hosts
+                                                                                            /etc/hostname
+                                                                                            /etc/resolv.conf
+                                                                                            /root/autodl-tmp
+                                                                                            /init
+nvme3n1     disk  894.3G    0 SAMSUNG MZQLB960HBJR-00W07               S7RPNS0X386795J      
+├─nvme3n1p1 part      1G    0                                                               
+└─nvme3n1p2 part  893.2G    0                                                               /usr/lib/xorg/modules/extensions/libglxserver_nvidia.so.580.105.08
+                                                                                            /usr/lib/xorg/modules/drivers/nvidia_drv.so
+                                                                                            /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+                                                                                            /usr/share/egl/egl_external_platform.d/15_nvidia_gbm.json
+                                                                                            /usr/share/egl/egl_external_platform.d/10_nvidia_wayland.json
+                                                                                            /usr/lib/x86_64-linux-gnu/vdpau/libvdpau_nvidia.so.580.105.08
+                                                                                            /usr/lib/firmware/nvidia/580.105.08/gsp_tu10x.bin
+                                                                                            /usr/lib/firmware/nvidia/580.105.08/gsp_ga10x.bin
+                                                                                            /usr/share/nvidia/nvoptix.bin
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvoptix.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-wayland-client.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-vksc-core.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-tls.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-sandboxutils.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-rtcore.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-present.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-pkcs11.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-pkcs11-openssl3.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-opticalflow.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-opencl.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-nvvm.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-ngx.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-gtk3.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-gtk2.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-gpucomp.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-glvkspirv.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-glsi.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-glcore.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-fbc.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-eglcore.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-egl-wayland.so.1.1.20
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-egl-gbm.so.1.1.2
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libnvcuvid.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libcudadebugger.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libcuda.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libGLX_nvidia.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libGLESv2_nvidia.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libGLESv1_CM_nvidia.so.580.105.08
+                                                                                            /usr/lib/x86_64-linux-gnu/libEGL_nvidia.so.580.105.08
+                                                                                            /etc/vulkan/implicit_layer.d/nvidia_layers.json
+                                                                                            /etc/vulkan/icd.d/nvidia_icd.json
+                                                                                            /usr/bin/nvidia-smi
+                                                                                            /usr/bin/nvidia-persistenced
+                                                                                            /usr/bin/nvidia-debugdump
+                                                                                            /usr/bin/nvidia-cuda-mps-server
+                                                                                            /usr/bin/nvidia-cuda-mps-control
+nvme2n1     disk      7T    0 SAMSUNG MZQLB7T6HALA-00W07               S7LBNS0X335237N      
+└─md0       raid5    14T    1                                                               /etc/hostname
+                                                                                            /etc/resolv.conf
+                                                                                            /etc/hosts
+                                                                                            /etc/hostname
+                                                                                            /etc/resolv.conf
+                                                                                            /root/autodl-tmp
+                                                                                            /init
+nvme1n1     disk      7T    0 SAMSUNG MZQLB7T6HALA-00W07               S7LBNS0X317117J      
+└─md0       raid5    14T    1                                                               /etc/hostname
+                                                                                            /etc/resolv.conf
+                                                                                            /etc/hosts
+                                                                                            /etc/hostname
+                                                                                            /etc/resolv.conf
+                                                                                            /root/autodl-tmp
+                                                                                            /init
+nbd8        disk      0B    0                                                               
+nbd9        disk      0B    0                                                               
+nbd10       disk      0B    0                                                               
+nbd11       disk      0B    0                                                               
+nbd12       disk      0B    0                                                               
+nbd13       disk      0B    0                                                               
+nbd14       disk      0B    0                                                               
+nbd15       disk      0B    0                                                               
+nbd16       disk      0B    0                                                               
+nbd17       disk      0B    0                                                               
+nbd18       disk      0B    0                                                               
+nbd19       disk      0B    0                                                               
+nbd20       disk      0B    0                                                               
+nbd21       disk      0B    0                                                               
+nbd22       disk      0B    0                                                               
+nbd23       disk      0B    0                                                               
+nbd24       disk      0B    0                                                               
+nbd25       disk      0B    0                                                               
+nbd26       disk      0B    0                                                               
+nbd27       disk      0B    0                                                               
+nbd28       disk      0B    0                                                               
+nbd29       disk      0B    0                                                               
+nbd30       disk      0B    0                                                               
+nbd31       disk      0B    0                                                               
+Personalities : [raid6] [raid5] [raid4] [linear] [multipath] [raid0] [raid1] [raid10] 
+md0 : active raid5 nvme1n1[1] nvme0n1[0] nvme2n1[3]
+      15002667008 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/3] [UUU]
+      bitmap: 29/56 pages [116KB], 65536KB chunk
+
+unused devices: <none>
+ 19:45:33 up 196 days,  3:55,  0 users,  load average: 11.51, 15.57, 17.72

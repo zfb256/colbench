@@ -1,0 +1,101 @@
+{
+  "quantity": "measured cold bytes minus column-chunk union prediction",
+  "projected_columns": 10,
+  "per_column_group_excess_KB_small_chunks": {
+    "chunks": [
+      1024,
+      8192,
+      32768,
+      131072
+    ],
+    "values": [
+      6.3052051777876725,
+      6.295794884653962,
+      6.206411346153846,
+      6.039609395973154
+    ],
+    "mean": 6.211755201142159,
+    "spread_pct": 4.397565544414195
+  },
+  "per_column_group_excess_KB_large_chunks": {
+    "chunks": [
+      524288,
+      1048576
+    ],
+    "values": [
+      139.2909862745098,
+      165.379175862069
+    ]
+  },
+  "global_linear_fit_rejected": {
+    "b_bytes_per_column_group": 6128.8440324286985,
+    "r_squared": 0.9945570825952836,
+    "reason": "high-leverage 1,024-row point supplies most touched groups"
+  },
+  "seed": 31,
+  "window": 362039,
+  "batch_rows": 4096,
+  "n_batches": 64,
+  "rows": [
+    {
+      "chunk_rows": 1024,
+      "row_groups_in_file": 31250,
+      "row_groups_touched": 15721,
+      "predicted_MB": 197.139366,
+      "measured_MB": 1188.380672,
+      "residual_MB": 991.241306,
+      "residual_per_group_KB": 63.05205177787673,
+      "residual_per_column_group_KB": 6.3052051777876725
+    },
+    {
+      "chunk_rows": 8192,
+      "row_groups_in_file": 3906,
+      "row_groups_touched": 1994,
+      "predicted_MB": 192.102554,
+      "measured_MB": 317.640704,
+      "residual_MB": 125.53815,
+      "residual_per_group_KB": 62.95794884653962,
+      "residual_per_column_group_KB": 6.295794884653962
+    },
+    {
+      "chunk_rows": 32768,
+      "row_groups_in_file": 976,
+      "row_groups_touched": 520,
+      "predicted_MB": 203.480133,
+      "measured_MB": 235.753472,
+      "residual_MB": 32.273339,
+      "residual_per_group_KB": 62.06411346153846,
+      "residual_per_column_group_KB": 6.206411346153846
+    },
+    {
+      "chunk_rows": 131072,
+      "row_groups_in_file": 244,
+      "row_groups_touched": 149,
+      "predicted_MB": 235.999126,
+      "measured_MB": 244.998144,
+      "residual_MB": 8.999018,
+      "residual_per_group_KB": 60.396093959731544,
+      "residual_per_column_group_KB": 6.039609395973154
+    },
+    {
+      "chunk_rows": 524288,
+      "row_groups_in_file": 61,
+      "row_groups_touched": 51,
+      "predicted_MB": 282.098237,
+      "measured_MB": 353.13664,
+      "residual_MB": 71.038403,
+      "residual_per_group_KB": 1392.909862745098,
+      "residual_per_column_group_KB": 139.2909862745098
+    },
+    {
+      "chunk_rows": 1048576,
+      "row_groups_in_file": 30,
+      "row_groups_touched": 29,
+      "predicted_MB": 312.729703,
+      "measured_MB": 360.689664,
+      "residual_MB": 47.959961,
+      "residual_per_group_KB": 1653.7917586206897,
+      "residual_per_column_group_KB": 165.379175862069
+    }
+  ]
+}

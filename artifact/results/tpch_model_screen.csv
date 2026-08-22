@@ -1,0 +1,7 @@
+dataset,access_label,columns,chunk_rows,union_groups,per_call_groups,projected_columns,union_mb,per_call_mb,two_term_union_mb,two_term_per_call_mb
+tpch_sf1_lineitem,"A3.shuffle(W=156783,B=4096,cols=2)","l_orderkey,l_returnflag",1024,4728,9858,2,7.317392,15.247337,66.039152,137.683697
+tpch_sf1_lineitem,"A3.shuffle(W=156783,B=4096,cols=2)","l_orderkey,l_returnflag",8192,604,1290,2,6.571168,14.027146,14.072848,30.048946
+tpch_sf1_lineitem,"A3.shuffle(W=156783,B=4096,cols=2)","l_orderkey,l_returnflag",32768,160,371,2,8.729384,20.23878,10.716584,24.8466
+tpch_sf1_lineitem,"A3.shuffle(W=156783,B=4096,cols=2)","l_orderkey,l_returnflag",131072,42,139,2,10.335852,34.253849,10.857492,35.980229
+tpch_sf1_lineitem,"A3.shuffle(W=156783,B=4096,cols=2)","l_orderkey,l_returnflag",524288,12,79,2,11.291754,78.058036,11.440794,79.039216
+tpch_sf1_lineitem,"A3.shuffle(W=156783,B=4096,cols=2)","l_orderkey,l_returnflag",1048576,6,71,2,7.435883,88.816473,7.510403,89.698293

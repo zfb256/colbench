@@ -1,0 +1,10 @@
+formal_jsonl_files 18
+records 504
+datasets ['clickbench_32p', 'tpcds_sf1_store_sales', 'tpch_sf1_lineitem']
+formats ['lance', 'orc', 'parquet']
+unverified_cold_eviction 0
+non_seven_repeat_cells 0
+rel_iqr_gt_0.25 2
+NOISY clickbench_32p parquet 524288 A2.scan(cols=10) cold 0.25432677449655905
+NOISY clickbench_32p parquet 524288 A3.shuffle(W=362039,B=4096,cols=10) warm 0.3167236842658042
+partial_files_packaged 0

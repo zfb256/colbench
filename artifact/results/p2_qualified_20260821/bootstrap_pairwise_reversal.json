@@ -1,0 +1,103 @@
+{
+ "resampling_unit": "one measured repetition (wall_s)",
+ "paired": false,
+ "statistic": "median",
+ "direction": "P(tuned challenger median < default-point leader median)",
+ "primary_estimate": "exact_empirical_bootstrap",
+ "monte_carlo": {
+  "generator": "numpy.random.default_rng",
+  "seed": 31,
+  "draws": 10000,
+  "role": "cross-check of the exact value only"
+ },
+ "claims": [
+  {
+   "dataset": "clickbench_32p",
+   "access": "shuffle",
+   "cache": "cold",
+   "selector": {
+    "default_point_leader": "format lance at its default request 1024",
+    "tuned_challenger": "format parquet at its fastest swept setting"
+   },
+   "default_leader": {
+    "format": "lance",
+    "chunk_rows": 1024,
+    "median_s": 2.5397839955985546,
+    "rel_iqr": 0.0269721011797157,
+    "n": 7,
+    "samples_s": [
+     2.5976494662463665,
+     2.515870653092861,
+     2.5397839955985546,
+     2.462462689727545,
+     2.5440725907683372,
+     2.488844782114029,
+     2.6257581748068333
+    ]
+   },
+   "tuned_challenger": {
+    "format": "parquet",
+    "chunk_rows": 131072,
+    "median_s": 2.3110622577369213,
+    "rel_iqr": 0.026318842527679454,
+    "n": 7,
+    "samples_s": [
+     2.7937643192708492,
+     2.298207566142082,
+     2.3110622577369213,
+     2.3689225502312183,
+     2.3536484986543655,
+     2.27862461656332,
+     2.302714515477419
+    ]
+   },
+   "margin_pct": 9.89682286125888,
+   "p_tuned_faster_exact": 0.9898499531900582,
+   "p_tuned_faster_monte_carlo": 0.9905
+  },
+  {
+   "dataset": "clickbench_32p",
+   "access": "shuffle",
+   "cache": "warm",
+   "selector": {
+    "default_point_leader": "format lance at its default request 1024",
+    "tuned_challenger": "format parquet at its fastest swept setting"
+   },
+   "default_leader": {
+    "format": "lance",
+    "chunk_rows": 1024,
+    "median_s": 1.756308190524578,
+    "rel_iqr": 0.01880909665705593,
+    "n": 7,
+    "samples_s": [
+     1.6881326958537102,
+     1.7483717165887356,
+     1.744522761553526,
+     1.7689124755561352,
+     1.843624871224165,
+     1.756308190524578,
+     1.790051143616438
+    ]
+   },
+   "tuned_challenger": {
+    "format": "parquet",
+    "chunk_rows": 32768,
+    "median_s": 2.081351686269045,
+    "rel_iqr": 0.0818980608153851,
+    "n": 7,
+    "samples_s": [
+     2.30542453750968,
+     3.051213350147009,
+     2.081351686269045,
+     2.049952156841755,
+     2.119082313030958,
+     2.029040265828371,
+     2.03363735973835
+    ]
+   },
+   "margin_pct": -15.61694248448362,
+   "p_tuned_faster_exact": 0,
+   "p_tuned_faster_monte_carlo": 0.0
+  }
+ ]
+}

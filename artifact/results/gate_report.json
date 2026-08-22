@@ -1,0 +1,95 @@
+{
+  "gate_schema": 3,
+  "generated_at_utc": "2026-08-13T12:40:17.642752+00:00",
+  "boot_id": "06c3d9c3-7cf1-4f9d-b1a4-8d9fb345df51",
+  "platform": {
+    "platform": "Linux-5.10.134-19.1.al8.x86_64-x86_64-with-glibc2.32",
+    "python": "3.12.11",
+    "processor": "x86_64",
+    "logical_cores": 4,
+    "physical_cores": 2,
+    "ram_gb": 15.9,
+    "pyarrow": "25.0.0",
+    "disk_io_is_real": true,
+    "native_thread_env": {
+      "LANCE_CPU_THREADS": null,
+      "LANCE_IO_THREADS": null,
+      "RAYON_NUM_THREADS": null,
+      "TOKIO_WORKER_THREADS": null
+    },
+    "lance": "9.0.0",
+    "vortex": "0.83.0"
+  },
+  "device": {
+    "path": "/root/colbench-work",
+    "mount": "/root",
+    "fstype": "ext4",
+    "device": "/dev/vda3",
+    "suspect": false,
+    "note": "local filesystem ext4 on /dev/vda3",
+    "rotational": true,
+    "virtualized": true,
+    "transport_hint": "virtio"
+  },
+  "raid": {
+    "detected": false,
+    "device": "/dev/vda3"
+  },
+  "formats_live": [
+    "parquet",
+    "lance"
+  ],
+  "formats_missing": [
+    "vortex"
+  ],
+  "free_gb": 62.5,
+  "seq_read_mbps": 164,
+  "seq_read_certified": true,
+  "random_read": {
+    "qualified": true,
+    "median_ms": 0.312914,
+    "p95_ms": 0.580212,
+    "iops": 2962.0648584983433,
+    "worst_median_ms": 0.3213565,
+    "worst_iops": 2786.543598097862,
+    "trials": [
+      {
+        "median_ms": 0.3213565,
+        "p95_ms": 0.622541,
+        "iops": 2786.543598097862
+      },
+      {
+        "median_ms": 0.31754099999999996,
+        "p95_ms": 0.401709,
+        "iops": 3059.6329148042346
+      },
+      {
+        "median_ms": 0.305672,
+        "p95_ms": 0.486686,
+        "iops": 3057.142191122594
+      }
+    ],
+    "detail": "all 3 trials passed HDD-exclusion thresholds (median <= 5.0ms, IOPS >= 250)"
+  },
+  "eviction_supported": true,
+  "eviction_ratio": 5.03,
+  "disk_io_is_real": true,
+  "storage_qualification": {
+    "qualified": false,
+    "storage_class": "unqualified storage",
+    "blockers": [
+      "certified sequential throughput is only 164 MB/s (< 300 MB/s)"
+    ],
+    "caveats": [
+      "kernel ROTA=1 is ignored only as a virtual-device hint; measured cold random access rules out HDD-like seeks",
+      "provider backend and transport are unknown; report virtual block storage and do not describe it as NVMe or local SSD"
+    ]
+  },
+  "storage_qualified": false,
+  "blockers": [
+    "certified sequential throughput is only 164 MB/s (< 300 MB/s)"
+  ],
+  "degraded": [
+    "formats unavailable: vortex"
+  ]
+}

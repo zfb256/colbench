@@ -1,0 +1,120 @@
+2026-08-16T02:50:25+00:00
+sample=1 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 15/56 pages [60KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:50:35+00:00
+sample=2 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 34/56 pages [136KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:50:45+00:00
+sample=3 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 17/56 pages [68KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:50:55+00:00
+sample=4 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 17/56 pages [68KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:51:05+00:00
+sample=5 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 35/56 pages [140KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:51:15+00:00
+sample=6 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 17/56 pages [68KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:51:25+00:00
+sample=7 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 15/56 pages [60KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:51:35+00:00
+sample=8 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 29/56 pages [116KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:51:45+00:00
+sample=9 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 19/56 pages [76KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:51:55+00:00
+sample=10 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 14/56 pages [56KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:52:05+00:00
+sample=11 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 28/56 pages [112KB], 65536KB chunk
+
+unused devices: <none>
+2026-08-16T02:52:15+00:00
+sample=12 sync_action=idle
+mismatch_cnt=0
+degraded=0
+Personalities : [raid1] [linear] [multipath] [raid0] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid1 nvme0n1[0] nvme2n1[1]
+      7501333824 blocks super 1.2 [2/2] [UU]
+      bitmap: 14/56 pages [56KB], 65536KB chunk
+
+unused devices: <none>

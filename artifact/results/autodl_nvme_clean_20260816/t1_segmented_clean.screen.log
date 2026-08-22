@@ -1,0 +1,130 @@
+=== checkpoint chunk=1024 start 2026-08-16T02:58:26+00:00 ===
+disk: need ~18.3 GB, free 152.9 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=1024)
+  parquet  c=1024     A1.scan(cols=all)                      cold t=1  83880.10ms (relIQR 0%)
+  writing clickbench_32p -> lance (chunk_rows=1024)
+  lance    c=1024     A1.scan(cols=all)                      cold t=1  70344.97ms (relIQR 1%)
+  parquet  c=1024     A1.scan(cols=all)                      warm t=1  81127.20ms (relIQR 0%)
+  lance    c=1024     A1.scan(cols=all)                      warm t=1  57821.95ms (relIQR 2%)
+  lance    c=1024     A2.scan(cols=10)                       cold t=1   4239.39ms (relIQR 6%)
+  parquet  c=1024     A2.scan(cols=10)                       cold t=1  13070.03ms (relIQR 4%)
+  lance    c=1024     A2.scan(cols=10)                       warm t=1   1989.95ms (relIQR 4%)
+  parquet  c=1024     A2.scan(cols=10)                       warm t=1  12279.63ms (relIQR 1%)
+  parquet  c=1024     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1 396842.26ms (relIQR 0%)
+  lance    c=1024     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2487.10ms (relIQR 2%)
+  parquet  c=1024     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1 393494.10ms (relIQR 0%)
+  lance    c=1024     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1303.61ms (relIQR 5%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c1024.jsonl
+=== checkpoint chunk=1024 complete 2026-08-16T05:36:03+00:00 ===
+pruned regenerable layouts for completed chunk=1024
+=== checkpoint chunk=8192 start 2026-08-16T05:36:03+00:00 ===
+disk: need ~18.3 GB, free 152.9 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=8192)
+  parquet  c=8192     A1.scan(cols=all)                      cold t=1  56480.84ms (relIQR 0%)
+  writing clickbench_32p -> lance (chunk_rows=8192)
+  lance    c=8192     A1.scan(cols=all)                      cold t=1  71506.41ms (relIQR 2%)
+  parquet  c=8192     A1.scan(cols=all)                      warm t=1  53482.72ms (relIQR 0%)
+  lance    c=8192     A1.scan(cols=all)                      warm t=1  57684.03ms (relIQR 1%)
+  lance    c=8192     A2.scan(cols=10)                       cold t=1   3877.06ms (relIQR 11%)
+  parquet  c=8192     A2.scan(cols=10)                       cold t=1   3769.26ms (relIQR 5%)
+  lance    c=8192     A2.scan(cols=10)                       warm t=1   2030.92ms (relIQR 1%)
+  parquet  c=8192     A2.scan(cols=10)                       warm t=1   3826.59ms (relIQR 2%)
+  parquet  c=8192     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1  52603.12ms (relIQR 1%)
+  lance    c=8192     A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2392.04ms (relIQR 4%)
+  parquet  c=8192     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1  52062.55ms (relIQR 1%)
+  lance    c=8192     A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1459.12ms (relIQR 1%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c8192.jsonl
+=== checkpoint chunk=8192 complete 2026-08-16T06:31:01+00:00 ===
+pruned regenerable layouts for completed chunk=8192
+=== checkpoint chunk=32768 start 2026-08-16T06:31:01+00:00 ===
+disk: need ~18.3 GB, free 152.9 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=32768)
+  parquet  c=32768    A1.scan(cols=all)                      cold t=1  52745.14ms (relIQR 1%)
+  writing clickbench_32p -> lance (chunk_rows=32768)
+  lance    c=32768    A1.scan(cols=all)                      cold t=1  71912.19ms (relIQR 3%)
+  parquet  c=32768    A1.scan(cols=all)                      warm t=1  51281.58ms (relIQR 1%)
+  lance    c=32768    A1.scan(cols=all)                      warm t=1  58083.35ms (relIQR 1%)
+  lance    c=32768    A2.scan(cols=10)                       cold t=1   3931.39ms (relIQR 9%)
+  parquet  c=32768    A2.scan(cols=10)                       cold t=1   3355.80ms (relIQR 2%)
+  lance    c=32768    A2.scan(cols=10)                       warm t=1   1986.02ms (relIQR 3%)
+  parquet  c=32768    A2.scan(cols=10)                       warm t=1   2525.78ms (relIQR 2%)
+  parquet  c=32768    A3.shuffle(W=362039,B=4096,cols=10)    cold t=1  16247.02ms (relIQR 1%)
+  lance    c=32768    A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2396.11ms (relIQR 3%)
+  parquet  c=32768    A3.shuffle(W=362039,B=4096,cols=10)    warm t=1  14989.75ms (relIQR 1%)
+  lance    c=32768    A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1465.64ms (relIQR 2%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c32768.jsonl
+=== checkpoint chunk=32768 complete 2026-08-16T07:15:11+00:00 ===
+pruned regenerable layouts for completed chunk=32768
+=== checkpoint chunk=131072 start 2026-08-16T07:15:11+00:00 ===
+disk: need ~18.3 GB, free 152.9 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=131072)
+  parquet  c=131072   A1.scan(cols=all)                      cold t=1  51697.33ms (relIQR 0%)
+  writing clickbench_32p -> lance (chunk_rows=131072)
+  lance    c=131072   A1.scan(cols=all)                      cold t=1  69121.18ms (relIQR 2%)
+  parquet  c=131072   A1.scan(cols=all)                      warm t=1  50121.19ms (relIQR 0%)
+  lance    c=131072   A1.scan(cols=all)                      warm t=1  58531.87ms (relIQR 1%)
+  lance    c=131072   A2.scan(cols=10)                       cold t=1   3850.05ms (relIQR 9%)
+  parquet  c=131072   A2.scan(cols=10)                       cold t=1   2742.98ms (relIQR 3%)
+  lance    c=131072   A2.scan(cols=10)                       warm t=1   1915.76ms (relIQR 6%)
+  parquet  c=131072   A2.scan(cols=10)                       warm t=1   2134.29ms (relIQR 1%)
+  parquet  c=131072   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   5092.36ms (relIQR 2%)
+  lance    c=131072   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2425.92ms (relIQR 2%)
+  parquet  c=131072   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   4583.20ms (relIQR 2%)
+  lance    c=131072   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1370.31ms (relIQR 2%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c131072.jsonl
+=== checkpoint chunk=131072 complete 2026-08-16T07:55:39+00:00 ===
+pruned regenerable layouts for completed chunk=131072
+=== checkpoint chunk=524288 start 2026-08-16T07:55:39+00:00 ===
+disk: need ~18.3 GB, free 152.9 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=524288)
+  parquet  c=524288   A1.scan(cols=all)                      cold t=1  51078.55ms (relIQR 1%)
+  writing clickbench_32p -> lance (chunk_rows=524288)
+  lance    c=524288   A1.scan(cols=all)                      cold t=1  70529.54ms (relIQR 1%)
+  parquet  c=524288   A1.scan(cols=all)                      warm t=1  49262.76ms (relIQR 1%)
+  lance    c=524288   A1.scan(cols=all)                      warm t=1  58838.16ms (relIQR 1%)
+  lance    c=524288   A2.scan(cols=10)                       cold t=1   3848.63ms (relIQR 3%)
+  parquet  c=524288   A2.scan(cols=10)                       cold t=1   2514.06ms (relIQR 4%)
+  lance    c=524288   A2.scan(cols=10)                       warm t=1   2011.80ms (relIQR 1%)
+  parquet  c=524288   A2.scan(cols=10)                       warm t=1   2048.72ms (relIQR 2%)
+  parquet  c=524288   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   5451.31ms (relIQR 2%)
+  lance    c=524288   A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2250.10ms (relIQR 3%)
+  parquet  c=524288   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   5006.37ms (relIQR 0%)
+  lance    c=524288   A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1474.19ms (relIQR 2%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c524288.jsonl
+=== checkpoint chunk=524288 complete 2026-08-16T08:36:18+00:00 ===
+pruned regenerable layouts for completed chunk=524288
+=== checkpoint chunk=1048576 start 2026-08-16T08:36:18+00:00 ===
+disk: need ~18.3 GB, free 152.9 GB
+preset=fig4 dataset=clickbench_32p rows=32,000,000 cells=12 repeats=7
+  writing clickbench_32p -> parquet (chunk_rows=1048576)
+  parquet  c=1048576  A1.scan(cols=all)                      cold t=1  50462.03ms (relIQR 0%)
+  writing clickbench_32p -> lance (chunk_rows=1048576)
+  lance    c=1048576  A1.scan(cols=all)                      cold t=1  73225.39ms (relIQR 1%)
+  parquet  c=1048576  A1.scan(cols=all)                      warm t=1  49116.23ms (relIQR 1%)
+  lance    c=1048576  A1.scan(cols=all)                      warm t=1  59258.49ms (relIQR 3%)
+  lance    c=1048576  A2.scan(cols=10)                       cold t=1   4598.61ms (relIQR 9%)
+  parquet  c=1048576  A2.scan(cols=10)                       cold t=1   2570.37ms (relIQR 3%)
+  lance    c=1048576  A2.scan(cols=10)                       warm t=1   1988.53ms (relIQR 1%)
+  parquet  c=1048576  A2.scan(cols=10)                       warm t=1   1992.01ms (relIQR 3%)
+  parquet  c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   7911.35ms (relIQR 2%)
+  lance    c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    cold t=1   2813.42ms (relIQR 2%)
+  parquet  c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   7271.82ms (relIQR 2%)
+  lance    c=1048576  A3.shuffle(W=362039,B=4096,cols=10)    warm t=1   1455.59ms (relIQR 2%)
+
+wrote 12 records -> /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c1048576.jsonl
+=== checkpoint chunk=1048576 complete 2026-08-16T09:18:03+00:00 ===
+pruned regenerable layouts for completed chunk=1048576
+All six T1 checkpoints are complete and individually boundary-qualified.
+Report with:
+/root/autodl-tmp/colbench/artifact/.venv/bin/python scripts/report.py /root/autodl-tmp/colbench/artifact/results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c{1024,8192,32768,131072,524288,1048576}.jsonl --cache-mode cold --threads 1 --dataset clickbench_32p
+run_exit_code=

@@ -1,0 +1,61 @@
+{
+  "model": "bytes = union(G(I),C) + k * |G(I)| * |C|",
+  "valid_max_chunk": 131072,
+  "k_bytes_per_column_group": 6211.755201142159,
+  "projected_columns": 10,
+  "held_out_abs_error_median": 0.0022927409196612696,
+  "held_out_abs_error_max": 0.024102416203809738,
+  "n_held_out_predictions": 12,
+  "model_argmin_chunk": 32768,
+  "measured_argmin_chunk": 32768,
+  "per_chunk": [
+    {
+      "chunk": 1024,
+      "groups": 15721,
+      "projected_columns": 10,
+      "union": 197139366.0,
+      "measured": 1188380672.0,
+      "predicted": 1173689401.1715589
+    },
+    {
+      "chunk": 8192,
+      "groups": 1994,
+      "projected_columns": 10,
+      "union": 192102554.0,
+      "measured": 317640704.0,
+      "predicted": 315964952.71077466
+    },
+    {
+      "chunk": 32768,
+      "groups": 520,
+      "projected_columns": 10,
+      "union": 203480133.0,
+      "measured": 235753472.0,
+      "predicted": 235781260.04593924
+    },
+    {
+      "chunk": 131072,
+      "groups": 149,
+      "projected_columns": 10,
+      "union": 235999126.0,
+      "measured": 244998144.0,
+      "predicted": 245254641.24970183
+    },
+    {
+      "chunk": 524288,
+      "groups": 51,
+      "projected_columns": 10,
+      "union": 282098237.0,
+      "measured": 353136640.0,
+      "predicted": 285266232.1525825
+    },
+    {
+      "chunk": 1048576,
+      "groups": 29,
+      "projected_columns": 10,
+      "union": 312729703.0,
+      "measured": 360689664.0,
+      "predicted": 314531112.00833124
+    }
+  ]
+}

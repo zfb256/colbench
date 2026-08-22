@@ -1,0 +1,39 @@
+pyarrow 25.0.0; 18 candidate file(s)
+
+[A] footer parse cost vs (row groups x columns)  -- footer only
+  file                                  groups   cols     entries       parse_s
+  clickbench_32p__parquet__c1024.par     31250    105     3281250        3.3551
+  clickbench_32p__parquet__c1048576.        31    105        3255        0.0041
+  clickbench_32p__parquet__c131072.p       245    105       25725        0.0240
+  clickbench_32p__parquet__c32768.pa       977    105      102585        0.0973
+  clickbench_32p__parquet__c524288.p        62    105        6510        0.0059
+  clickbench_32p__parquet__c8192.par      3907    105      410235        0.3917
+  tpcds_sf1_store_sales__parquet__c1      2813     23       64699        0.0655
+  tpcds_sf1_store_sales__parquet__c1        22     23         506        0.0006
+  tpcds_sf1_store_sales__parquet__c3        88     23        2024        0.0018
+  tpcds_sf1_store_sales__parquet__c5         6     23         138        0.0003
+  tpcds_sf1_store_sales__parquet__c8       352     23        8096        0.0069
+  tpch_sf1_lineitem__parquet__c1024.      5861     16       93776        0.1052
+  tpch_sf1_lineitem__parquet__c13107        46     16         736        0.0008
+  tpch_sf1_lineitem__parquet__c32768       184     16        2944        0.0025
+  tpch_sf1_lineitem__parquet__c52428        12     16         192        0.0003
+  tpch_sf1_lineitem__parquet__c8192.       733     16       11728        0.0118
+  fitted 1.022 us per metadata entry (fixed overhead -0.0018 s)
+
+[A2] projection onto ClickBench-32p Parquet layouts
+      chunk    groups     entries    parse_s    x64 batches
+       1024     31250     3281250      3.352          214.5
+       8192      3907      410235      0.417           26.7
+      32768       977      102585      0.103            6.6
+     131072       245       25725      0.024            1.6
+     524288        62        6510      0.005            0.3
+    1048576        31        3255      0.001            0.1
+  (compare the x64 column against the measured shuffle medians;
+   the difference is what is left for I/O and decoding)
+  enforcing Arrow CPU/I/O threads=1
+
+[B] direct per-call vs hoisted on clickbench_32p__parquet__c1024.parquet
+  NOTE: this reads and decompresses real column data
+  using the paper's ten projected columns
+  window=362039  batches=64 x 4096 rows  columns=10
+  per-call 236.963 s | hoisted 15.053 s | metadata share 93.6%

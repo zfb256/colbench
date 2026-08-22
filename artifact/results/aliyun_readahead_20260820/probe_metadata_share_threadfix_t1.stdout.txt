@@ -1,0 +1,28 @@
+pyarrow 25.0.0; 5 candidate file(s)
+
+[A] footer parse cost vs (row groups x columns)  -- footer only
+  file                                  groups   cols     entries       parse_s
+  clickbench_32p__parquet__c1048576.        31    105        3255        0.0065
+  clickbench_32p__parquet__c131072.p       245    105       25725        0.0421
+  clickbench_32p__parquet__c32768.pa       977    105      102585        0.1662
+  clickbench_32p__parquet__c524288.p        62    105        6510        0.0117
+  clickbench_32p__parquet__c8192.par      3907    105      410235        0.6506
+  fitted 1.582 us per metadata entry (fixed overhead 0.0019 s)
+
+[A2] projection onto ClickBench-32p Parquet layouts
+      chunk    groups     entries    parse_s    x64 batches
+       1024     31250     3281250      5.194          332.4
+       8192      3907      410235      0.651           41.7
+      32768       977      102585      0.164           10.5
+     131072       245       25725      0.043            2.7
+     524288        62        6510      0.012            0.8
+    1048576        31        3255      0.007            0.4
+  (compare the x64 column against the measured shuffle medians;
+   the difference is what is left for I/O and decoding)
+  enforcing Arrow CPU/I/O threads=1
+
+[B] direct per-call vs hoisted on clickbench_32p__parquet__c8192.parquet
+  NOTE: this reads and decompresses real column data
+  using the paper's ten projected columns
+  window=362039  batches=64 x 4096 rows  columns=10
+  per-call 48.674 s | hoisted 6.469 s | metadata share 86.7%

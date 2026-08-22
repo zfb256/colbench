@@ -1,0 +1,17 @@
+{
+  "diagnostic": "parquet_single_thread_hot_full_scan",
+  "formal_result": false,
+  "source": "/root/colbench-data/clickbench_32p.parquet",
+  "target": "/root/colbench-work/diagnostic_clickbench_8m_parquet_c131072.parquet",
+  "rows": 8000000,
+  "file_size_bytes": 889417711,
+  "file_size_mb": 889.417711,
+  "chunk_rows": 131072,
+  "batch_rows": 65536,
+  "repeats": 5,
+  "wall_s_median": 22.836206330917776,
+  "cpu_s_median": 22.45986253399998,
+  "file_mb_per_wall_s": 38.947699898639634,
+  "gate_seq_read_mbps": 163,
+  "pid": 2
+}
