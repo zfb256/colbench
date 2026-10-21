@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Run the 72-cell ClickBench T1 matrix as six independently recoverable
-# 12-cell checkpoints. Start this script inside screen/tmux.
 
 set -Eeuo pipefail
 

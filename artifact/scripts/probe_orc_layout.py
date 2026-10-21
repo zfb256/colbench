@@ -31,9 +31,6 @@ def probe(rows: int, seed: int, stripe_sizes=DEFAULT_STRIPE_SIZES) -> dict:
                 table, path, stripe_size=stripe_size,
                 row_index_stride=10_000, compression="uncompressed",
             )
-            # Read through an explicitly closed handle. ORCFile keeps the
-            # file open, which is harmless on POSIX but leaves the temporary
-            # directory unremovable on Windows.
             with path.open("rb") as handle:
                 source = orc.ORCFile(handle)
                 nstripes = source.nstripes

@@ -1,17 +1,4 @@
-"""Fetch / generate the public datasets.
-
-    python scripts/get_data.py clickbench --partitions 8
-    python scripts/get_data.py tpch --sf 1
-    python scripts/get_data.py tpcds --sf 1 --table store_sales
-    python scripts/get_data.py status
-
-Every dataset here is public and needs no annotation, credentials or licence
-click-through.  Downloads resume, so an interrupted run is safe to repeat.
-
-Sizing note: each ClickBench partition is ~117 MB / ~1 M rows, and the full set
-is 100 partitions (~11.7 GB).  Budget roughly 3x the source size on disk, since
-the benchmark writes the same data once per format.
-"""
+'Fetch / generate the public datasets.'
 
 from __future__ import annotations
 
@@ -30,7 +17,6 @@ sys.path.insert(0, str(ROOT))
 
 from colbench import paths  # noqa: E402
 
-# Sources are read during materialisation, outside the timer.
 DATA = paths.data_dir()
 
 CLICKBENCH_PART = (
@@ -114,12 +100,7 @@ def cmd_clickbench(args) -> None:
 
 
 def _merge_parquet(parts: list[Path], out: Path, *, row_group_rows: int) -> None:
-    """Concatenate Parquet files streaming, with an explicit row-group size.
-
-    The source's own row-group layout must not leak into the experiment: the
-    merged file is the *input*, and every format is written from it afresh with
-    the chunk size the matrix asks for.
-    """
+    'Concatenate Parquet files streaming, with an explicit row-group size.'
     first = pq.ParquetFile(str(parts[0]))
     schema = first.schema_arrow
     tmp = out.with_suffix(".tmp")

@@ -1,17 +1,4 @@
-"""Held-out validation of the two-term byte model.
-
-The column-chunk union predicts the bytes a layout forces a reader to fetch.
-Adding one calibrated term for per-projected-column-row-group fixed cost gives
-
-    bytes = sum_{g in G(I)} sum_{c in C} S(g,c)  +  k * |G(I)| * |C|
-
-with a single free parameter k. This script calibrates k on a subset of chunk
-sizes and predicts the rest, so the reported accuracy is out-of-sample rather
-than a fit quality. It also checks whether the model reproduces the chunk size
-at which measured bytes are minimised.
-
-    python scripts/validate_two_term_model.py
-"""
+'Held-out validation of the two-term byte model.'
 
 from __future__ import annotations
 
@@ -30,7 +17,6 @@ from scripts.fit_group_overhead import (  # noqa: E402
     CHUNKS, PROJECTED_COLUMNS, load_amplification, touched_row_groups,
 )
 
-# The constant-per-group term is fitted only below this boundary.
 VALID_MAX_CHUNK = 131_072
 
 

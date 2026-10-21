@@ -1,10 +1,4 @@
-"""Milestone 8 self-test: path resolution and device identification.
-
-The point of this layer is to stop the study silently measuring the wrong
-volume. On a host with several disks -- a small native NVMe and a larger rented
-mount, say -- putting ``work/`` on the mount produces numbers that look entirely
-plausible and describe the network rather than the format.
-"""
+'Milestone 8 self-test: path resolution and device identification.'
 
 from __future__ import annotations
 
@@ -79,7 +73,6 @@ def test_mount_detection_prefers_the_longest_matching_prefix(tmp_path, monkeypat
     real_exists, real_read = Path.exists, Path.read_text
     payload = fake.read_text()
 
-    # Path("/proc/mounts") renders with backslashes on Windows.
     def is_proc(p) -> bool:
         return p.as_posix() == "/proc/mounts"
 

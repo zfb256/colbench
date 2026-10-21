@@ -1,6 +1,3 @@
-"""colbench - independent benchmark of columnar formats under ML access patterns.
-
-See REPRODUCIBILITY.md for the measurement protocol this code implements.
-"""
+'colbench - independent benchmark of columnar formats under ML access patterns.'
 
 __version__ = "0.1.0"

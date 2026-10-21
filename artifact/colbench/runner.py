@@ -1,19 +1,4 @@
-"""Experiment driver.
-
-Turns a declarative matrix (datasets x formats x chunk sizes x access patterns x
-cache modes x thread counts) into JSONL records carrying enough provenance that
-a reviewer can tell what was actually measured.
-
-Two fields exist purely so a result can never be over-read:
-
-* ``eviction_verified`` -- was cold-cache eviction *demonstrated* to work on this
-  machine, or merely requested?
-* ``disk_io_is_real``   -- does ``read_bytes`` reflect kernel-accounted storage
-  I/O, or syscall bytes that include page-cache hits?
-
-Any cold-cache row with ``eviction_verified == false`` is not evidence, and the
-analysis layer must refuse to plot it as such.
-"""
+'Experiment driver.'
 
 from __future__ import annotations
 
@@ -33,18 +18,12 @@ from .datagen import TableSpec
 from .formats import ADAPTERS, FormatAdapter, canonical_reader, canonical_schema, get_adapter
 
 
-#: Bumped whenever a change alters what a timed cell measures, so rows produced
-#: under different conventions can never be pooled by accident.
+# Increment when measurement semantics change; source digests also change after comment edits.
 PROTOCOL_SCHEMA = 1
 
 
 def _source_digest() -> str:
-    """SHA-256 over the measurement package, binding rows to the code that made them.
-
-    Git metadata does not survive the transfers this bundle goes through, so the
-    digest is taken over the sources themselves. It is the fallback identity a
-    third party can recompute from the artifact alone.
-    """
+    'SHA-256 over the measurement package, binding rows to the code that made them.'
     import hashlib
 
     here = Path(__file__).resolve().parent
@@ -137,14 +116,7 @@ class Matrix:
     warmup: int = 1
 
     def cells(self) -> Iterator[tuple]:
-        """Yield a deterministic, counterbalanced full-factorial order.
-
-        Formats are adjacent within each workload/cache/thread cell and their
-        order reverses on alternating access/chunk blocks.  This prevents a
-        slow drift in shared-host or RAID-scrub load from being perfectly
-        confounded with format (the old format-major order ran all of one
-        format before the next).
-        """
+        'Yield a deterministic, counterbalanced full-factorial order.'
         formats = tuple(self.formats)
         for ds in self.datasets:
             for access_i, a in enumerate(self.accesses):
@@ -174,7 +146,6 @@ class Runner:
         self.run_id = uuid.uuid4().hex[:12]
         self.env = measure.environment(self.work_dir)
 
-        # Match the eviction check used by scripts/gate.py.
         self.eviction = (
             cache.verify_eviction(
                 self.work_dir, size_mb=256, trials=cache.QUALIFICATION_TRIALS)
@@ -185,11 +156,7 @@ class Runner:
             self._log(f"WARNING: {self.eviction}")
             self._log("WARNING: cold-cache rows from this host are NOT evidence.")
 
-        # A reader lifetime is an experimental condition, not an implementation
-        # detail: an earlier protocol reopened the file per batch and charged
-        # the resulting metadata cost to the layout. Recording the protocol in
-        # every row lets a reader tell which convention produced it without
-        # relying on the directory it happens to sit in.
+        # One reader per timed access prevents per-batch metadata cost from confounding layout.
         self.protocol = {
             "schema": PROTOCOL_SCHEMA,
             "reader_scope": "per_timed_access",
@@ -222,9 +189,7 @@ class Runner:
         self._log(f"  writing {ds.name} -> {fmt} (chunk_rows={chunk})")
         extra = {}
         if fmt == "orc":
-            # ORC groups by bytes, so the shared rows-per-group target has to be
-            # converted with a rate measured once per dataset. Measuring it per
-            # setting would let the conversion absorb the very effect we sweep.
+            # Keep one conversion rate per dataset so calibration cannot absorb the layout effect.
             extra["bytes_per_row"] = self._orc_rate(ds, compression)
         t0 = time.perf_counter()
         adapter.write(ds.reader(), path, chunk_rows=chunk, compression=compression,
@@ -234,12 +199,7 @@ class Runner:
         return path, write_s, adapter.size_bytes(path)
 
     def _emitted_layout(self, fmt: str, path: Path) -> dict | None:
-        """What the writer actually produced, not what it was asked for.
-
-        The requested value is already in ``chunk_rows``; recording the emitted
-        grouping next to it is what lets a reader tell a tuned writer from one
-        that accepted the argument and ignored it.
-        """
+        'What the writer actually produced, not what it was asked for.'
         adapter = get_adapter(fmt)
         fn = getattr(adapter, "emitted_layout", None)
         if fn is None:
@@ -320,12 +280,10 @@ class Runner:
                     once, n=matrix.repeats, setup=setup, warmup=matrix.warmup
                 )
         finally:
-            # Cleanup is outside the timer; setup restores the requested cache state.
             cache.evict(files)
 
         wall = result.median("wall_s")
         cpu_parallelism = result.median("cpu_s") / wall if wall > 0 else 0.0
-        # Ignore sub-second cells where startup work distorts CPU parallelism.
         if wall >= 1.0 and cpu_parallelism > n_threads * 1.25:
             raise RuntimeError(
                 f"{fmt} used effective CPU parallelism {cpu_parallelism:.2f}x "

@@ -1,20 +1,4 @@
-"""Run an experiment preset.
-
-    python scripts/run_experiment.py smoke
-    python scripts/run_experiment.py fig2 --dataset clickbench_8p --repeats 7
-    python scripts/run_experiment.py --list
-
-Presets map one-to-one onto the figures reported in the paper:
-
-  fig1  A1/A2  scan and projection-width sweep      -> Fig.1
-  fig2  A3     shuffle-locality sweep
-  fig3  A4/A5  point lookup and predicate selectivity
-  fig4  C4     chunk-size sweep, defaults neutralised -> Fig.4
-
-Cold-cache cells are requested only when the host can actually evict; otherwise
-the run degrades to warm-cache and says so, rather than emitting numbers that
-look cold and are not.
-"""
+'Run an experiment preset.'
 
 from __future__ import annotations
 
@@ -36,16 +20,11 @@ CHUNK_SWEEP = [8_192, 32_768, 131_072, 524_288]
 DEFAULT_CHUNKS = {"parquet": 1_048_576, "lance": 1_024, "vortex": 65_536}
 
 
-# Pessimistic expansion factors for the disk preflight.
 EXPANSION = {"parquet": 1.0, "lance": 2.6, "vortex": 2.6}
 
 
 def estimate_disk_bytes(ds: runner.Dataset, formats, chunks) -> int:
-    """Space the run will consume under work/, plus one copy of transient slack.
-
-    A long unattended run that dies at 80% having filled the disk is worse than
-    one that refuses to start, so this is checked up front.
-    """
+    'Space the run will consume under work/, plus one copy of transient slack.'
     source = ds.source.stat().st_size if ds.source else ds.n_rows() * 100
     per_format = {f: source * EXPANSION.get(f, 2.6) for f in formats}
     total = sum(v * len(chunks) for v in per_format.values())
@@ -140,12 +119,7 @@ def preset_fig3(ds, args):
 
 
 def preset_fig4(ds, args):
-    """C1: same access, sweeping the physical chunk size across formats.
-
-    The sweep must *include every format's own default*, otherwise
-    ``gap_at_defaults_vs_tuned`` has nothing to compare the tuned numbers
-    against and the default-versus-tuned comparison cannot be computed.
-    """
+    'C1: same access, sweeping the physical chunk size across formats.'
     cols = pick_columns(ds, 0.1)
     b = args.batch_rows
     n = ds.n_rows()
@@ -224,12 +198,7 @@ NATIVE_THREAD_ENVS = (
 
 
 def configure_native_threads(spec: str) -> list[int]:
-    """Configure native format runtimes before Lance is imported.
-
-    PyArrow's runtime can be resized per cell. Lance creates Rust/Rayon/Tokio
-    pools on first import and therefore needs process-level environment
-    variables. A multi-thread sweep must use separate processes.
-    """
+    'Configure native format runtimes before Lance is imported.'
     values = [int(value) for value in spec.split(",") if value.strip()]
     if not values or any(value < 1 for value in values):
         raise SystemExit("--threads must contain positive integers")
@@ -292,7 +261,6 @@ def main(argv=None) -> int:
     fmts = [f.strip() for f in args.formats.split(",") if f.strip()]
     live_fmts = [f for f in fmts if f in ADAPTERS and ADAPTERS[f].probe()[0]]
 
-    # Virtual block devices still require the measured storage gate.
     dev = paths.describe_mount(work)
     if dev.get("suspect") and not args.skip_disk_check:
         raise SystemExit(
@@ -302,7 +270,7 @@ def main(argv=None) -> int:
             "not the formats. Point COLBENCH_WORK at a directly mounted block device:\n"
             "  export COLBENCH_WORK=/path/on/block-device/colbench-work\n"
             "Sources can stay where they are (COLBENCH_DATA) -- they are read only\n"
-            "during materialisation, never inside a timer.\n"
+            "during materialization, never inside a timer.\n"
             "Run scripts/gate.py and use --skip-disk-check only for a documented override."
         )
     if not args.skip_disk_check:

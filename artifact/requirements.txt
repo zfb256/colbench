@@ -1,6 +1,3 @@
-# Versions verified working together on Windows (correctness) as of 2026-08-06.
-# Pinned because the artifact must be reproducible; loosen only with a re-run of
-# the full test suite.
 pyarrow==25.0.0
 pylance==9.0.0
 psutil==7.2.2
@@ -11,8 +8,4 @@ duckdb==1.5.5
 requests==2.34.2
 pytest==9.1.1
 
-# Linux / macOS only -- no Windows wheels exist, and none are planned.
-# Requires Python >= 3.11.  NOTE: the package was renamed from `vortex-array`;
-# every `vortex-array` release on PyPI is yanked.  Do NOT install `vortex-oct`,
-# which is an unrelated optical-imaging project with a confusingly similar name.
 vortex-data==0.83.0 ; sys_platform != "win32"

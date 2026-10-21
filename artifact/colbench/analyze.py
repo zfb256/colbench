@@ -1,18 +1,4 @@
-"""Analysis and figures.
-
-The most important function here is :func:`usable`.  A benchmark's credibility
-is decided by what it *refuses* to plot, so records that cannot support the
-claim being made are dropped loudly rather than averaged in quietly:
-
-* a ``cold`` row from a host where eviction was never demonstrated is not a
-  cold-cache measurement;
-* a ``read_bytes`` column on an OS that only reports syscall bytes cannot
-  separate "reads less" from "decodes faster";
-* a cell whose relative IQR is huge is noise, not a result.
-
-:func:`find_crossovers` checks whether format ranking changes along the
-shuffle-locality axis.
-"""
+'Analysis and figures.'
 
 from __future__ import annotations
 
@@ -95,13 +81,7 @@ def select_measurement_scope(
     dataset: str | None = None,
     allow_multiple_datasets: bool = True,
 ) -> pd.DataFrame:
-    """Select one comparable measurement scope, failing closed on ambiguity.
-
-    Cold and warm cache rows, or different thread counts, are different
-    experiments.  Quietly taking their median can produce plausible but
-    meaningless figures. Dataset pooling is likewise forbidden for the regular
-    figure report unless explicitly allowed.
-    """
+    'Select one comparable measurement scope, failing closed on ambiguity.'
     if df.empty:
         return df.copy()
 
@@ -156,12 +136,7 @@ class Crossover:
 
 
 def find_crossovers(df: pd.DataFrame, *, metric: str = "wall_s_median") -> list[Crossover]:
-    """Windows at which the fastest format changes.
-
-    An empty list is the paper's negative outcome for C2: the formats never
-    swap, so locality does not change the recommendation and the contribution
-    has to rest on C4 instead.
-    """
+    'Windows at which the fastest format changes.'
     table = window_table(df, metric=metric)
     if table.empty or table.shape[1] < 2:
         return []
@@ -185,12 +160,7 @@ def speedup_vs(df: pd.DataFrame, baseline: str = "parquet",
 
 
 def chunk_sensitivity(df: pd.DataFrame, *, metric: str = "wall_s_median") -> pd.DataFrame:
-    """Per (access, format) spread of ``metric`` across chunk sizes.
-
-    A format whose time swings widely with ``chunk_rows`` cannot be compared
-    against another at each one's own default without that choice dominating
-    the result -- which is exactly the C4 claim.
-    """
+    'Per (access, format) spread of ``metric`` across chunk sizes.'
     if df.empty:
         return pd.DataFrame()
     g = df.groupby(["access_label", "format"])[metric]
@@ -241,11 +211,7 @@ def gap_at_defaults_vs_tuned(
     baseline: str = "parquet",
     fixed_layout_formats: set[str] | None = None,
 ) -> pd.DataFrame:
-    """Compare defaults with each format's best verified layout.
-
-    Fixed-layout formats reuse their default estimate so repeated measurements
-    of one layout are not counted as tuning opportunities.
-    """
+    "Compare defaults with each format's best verified layout."
     if df.empty:
         return pd.DataFrame()
     fixed_layout_formats = fixed_layout_formats or set()
@@ -361,7 +327,6 @@ def plot_chunk_effect(df: pd.DataFrame, out: Path, *, title: str = "") -> Path |
             ax.plot(table.index, table[fmt] * 1000, marker="o", ms=4, label=label_name)
         ax.set_xscale("log")
         ax.set_yscale("log")
-        # The request may not change physical layout for every format.
         ax.set_xlabel("Requested group size (rows)")
         kind = sub["access_kind"].iloc[0]
         n_columns = sub["access_n_columns"].iloc[0]
@@ -381,7 +346,6 @@ def plot_chunk_effect(df: pd.DataFrame, out: Path, *, title: str = "") -> Path |
         axes[3].set_ylabel("Median time (ms)")
     axes[-1].legend(frameon=False)
 
-    # Keep cache mode visible in the title.
     if not title and "cache_mode" in df.columns:
         modes = sorted(df["cache_mode"].unique())
         suffix = f" ({modes[0]} cache)" if len(modes) == 1 else ""

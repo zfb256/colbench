@@ -1,32 +1,5 @@
 #!/usr/bin/env python
-"""How often does the tuned format actually beat the default-point leader?
-
-The cold-shuffle reversal rests on a margin of about ten percent between two
-seven-repetition cells, so the paper needs a resampling estimate rather than a
-point comparison. The existing bootstrap script answers a different question --
-which chunk size is best within one format -- so this one exists to make the
-pairwise claim reproducible.
-
-With seven repetitions per cell the answer does not have to be simulated. A
-bootstrap median of seven draws is always one of the seven order statistics,
-and the probability of each is a binomial tail, so the exact empirical-bootstrap
-probability is a finite double sum over the two cells' medians. That value is
-deterministic: it does not move with the seed, the draw count, or the order in
-which a generator is called. We report it as the result and keep a Monte Carlo
-run beside it only as a check on the arithmetic.
-
-The resampling contract is recorded in the output rather than left implicit:
-
-* unit        one measured repetition (wall seconds), resampled with replacement
-* pairing     none; the two cells are separate files read by separate readers,
-              so their repetitions are not matched observations
-* statistic   median of each cell, as the paper reports medians
-* direction   probability that the tuned cell's median is the smaller
-* exact       closed form over the bootstrap median distribution
-* monte carlo generator, seed and draws recorded for the cross-check only
-
-Run:  python scripts/bootstrap_pairwise_reversal.py <results-dir> [out.json]
-"""
+'How often does the tuned format actually beat the default-point leader?'
 from __future__ import annotations
 
 import json
@@ -38,7 +11,6 @@ import numpy as np
 
 DRAWS = 10_000
 SEED = 31
-#: (dataset, access kind, cache, default-point leader, its chunk, challenger)
 CLAIMS = [
     ("clickbench_32p", "shuffle", "cold", "lance", 1_024, "parquet"),
     ("clickbench_32p", "shuffle", "warm", "lance", 1_024, "parquet"),
@@ -63,14 +35,7 @@ def samples(rec: dict) -> list[float]:
 
 
 def median_distribution(values: list[float]) -> list[tuple[float, float]]:
-    """Exact distribution of the bootstrap median of ``len(values)`` draws.
-
-    For a resample of size n from the empirical distribution, the median is the
-    ceil(n/2)-th order statistic. It is at most ``v`` exactly when at least that
-    many draws land at or below ``v``, which is a binomial tail in the empirical
-    CDF at ``v``. Differencing that tail over the distinct values gives the mass
-    on each. Ties are handled because the CDF is evaluated on distinct values.
-    """
+    'Exact distribution of the bootstrap median of ``len(values)`` draws.'
     n = len(values)
     need = (n + 1) // 2                      # rank of the median among n draws
     ordered = sorted(values)

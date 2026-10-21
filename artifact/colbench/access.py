@@ -1,21 +1,4 @@
-"""Access patterns A1-A5.
-
-A3 models locality between sequential scans and fully random point access.
-
-We parameterise that middle ground with a single knob, the **shuffle window**
-``W``.  To build one batch of ``B`` rows we pick a random window start ``s`` and
-draw ``B`` row ids from ``[s, s + W)``:
-
-* ``W == B``  -> the batch is one contiguous run of rows: sequential I/O
-* ``W == N``  -> the batch is spread over the whole dataset: random I/O
-
-Sweeping ``W`` from ``B`` to ``N`` tests how layout sensitivity changes with
-locality.
-
-Note that all formats receive *identical* index arrays in *identical* order.
-Whether a format sorts them internally before doing I/O is its own design
-decision and part of what is being measured.
-"""
+'Access patterns A1-A5.'
 
 from __future__ import annotations
 
@@ -28,11 +11,7 @@ from .formats import FormatAdapter, Predicate
 
 
 def _sample_without_replacement(hi: int, k: int, rng: np.random.Generator) -> np.ndarray:
-    """``k`` distinct values from ``[0, hi)``.
-
-    Floyd's algorithm for the sparse case keeps this O(k) instead of O(hi);
-    a window of 10^8 must not cost a 10^8-element permutation.
-    """
+    '``k`` distinct values from ``[0, hi)``.'
     if k > hi:
         raise ValueError(f"cannot draw {k} distinct values from {hi}")
     if hi <= 4 * k:
@@ -186,11 +165,7 @@ def execute(
     *,
     indices: list[np.ndarray] | None = None,
 ) -> int:
-    """Run ``access`` and return the number of rows produced.
-
-    Pass ``indices`` from :func:`plan` so that identical row ids are used for
-    every format and every repetition.
-    """
+    'Run ``access`` and return the number of rows produced.'
     cols = list(access.columns) if access.columns else None
 
     if access.kind == "scan":

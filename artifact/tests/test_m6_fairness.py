@@ -1,14 +1,4 @@
-"""Cross-format fairness checks.
-
-These guard the comparison rather than any single adapter. A writer that
-accepts a compression or grouping argument and drops it produces a file built
-to different rules from its peers, and the resulting timing difference is not
-a format difference.
-
-Assertions here test responsiveness, not a particular compression ratio: how
-well a format compresses is a result, whether it applied what was requested is
-a precondition.
-"""
+'Cross-format fairness checks.'
 
 from __future__ import annotations
 
@@ -25,7 +15,6 @@ from colbench.formats import ADAPTERS, get_adapter
 
 LIVE = [n for n, c in ADAPTERS.items() if c.probe()[0]]
 
-    # Avoid incompressible random floats in codec checks.
 SPEC = datagen.TableSpec(n_rows=200_000, n_float=0, n_int=4, n_str=4,
                          str_cardinality=16, int_range=64,
                          batch_rows=16_384, seed=21)
@@ -33,12 +22,7 @@ SPEC = datagen.TableSpec(n_rows=200_000, n_float=0, n_int=4, n_str=4,
 
 @pytest.mark.parametrize("name", LIVE)
 def test_compression_request_changes_the_output(tmp_path, name):
-    """Two different codecs must produce two different files.
-
-    Deliberately not "zstd must beat none by Nx": Lance's built-in encodings
-    already do most of the work on this data, so its zstd gain is only ~1.1x --
-    small, but real.  Requiring a fixed ratio would fail a correct adapter.
-    """
+    'Two different codecs must produce two different files.'
     ad = get_adapter(name)
     sizes = {}
     for comp in ("none", "zstd"):
@@ -77,12 +61,7 @@ def test_unknown_codec_fails_loudly(tmp_path, name):
 
 @pytest.mark.skipif(len(LIVE) < 2, reason="needs at least two formats")
 def test_formats_are_within_a_plausible_size_band(tmp_path):
-    """Same data, same codec, same chunking: sizes should be comparable.
-
-    Not a claim that formats must compress equally -- they must not, that is
-    part of what we measure.  But an order-of-magnitude gap on identical
-    settings means the harness is asking them for different things.
-    """
+    'Same data, same codec, same chunking: sizes should be comparable.'
     sizes = {}
     for name in LIVE:
         ad = get_adapter(name)
@@ -120,11 +99,7 @@ def test_formats_return_identical_data_for_identical_indices(tmp_path):
 
 @pytest.mark.parametrize("name", LIVE)
 def test_chunk_rows_is_accepted_and_data_survives(tmp_path, name):
-    """chunk_rows must be accepted as an argument and never corrupt the data.
-
-    Whether it changes the emitted layout is format-specific, so responsiveness
-    is checked from each format's physical metadata below.
-    """
+    'chunk_rows must be accepted as an argument and never corrupt the data.'
     ad = get_adapter(name)
     for chunk in (4_096, 262_144):
         p = tmp_path / f"{name}_c{chunk}"
@@ -174,19 +149,7 @@ def chunk_responsiveness(tmp_path, spec) -> dict[str, bool]:
 
 
 def test_chunk_knob_is_real_for_at_least_one_format(tmp_path):
-    """C4 needs the chunk knob to move *something* somewhere.
-
-    Measured behaviour, verified from physical metadata at 200k rows:
-
-    * parquet: row-group metadata changes across the six requested settings.
-    * lance: fragment row counts and page counts do not change. Every column
-      retains one page per fragment across the six settings in the evaluated
-      Lance 9.0 writer path.
-
-    That asymmetry is itself a C4 result -- the knob practitioners are told to
-    tune does not exist in every format -- so it belongs in the paper, not in a
-    failing test.
-    """
+    'C4 needs the chunk knob to move *something* somewhere.'
     responds = chunk_responsiveness(tmp_path, SPEC)
     print(f"\nchunk_rows responsiveness: {responds}")
     assert responds.get("parquet") is True, (

@@ -16,6 +16,10 @@ artifact/colbench/runner.py
 artifact/colbench/storage.py
 artifact/data/README.md
 artifact/data/clickbench_32p.parquet.sha256
+artifact/figures/fig1_attribution.pdf
+artifact/figures/fig1_attribution.png
+artifact/figures/fig2_protocol.pdf
+artifact/figures/fig2_protocol.png
 artifact/figures/fig4_chunk_effect.png
 artifact/figures/fig5_read_amplification.png
 artifact/figures/fig6_cross_dataset_chunk.png
@@ -148,6 +152,7 @@ artifact/results/legacy_aliyun_20260813/gate_report_aliyun_recheck_3.json
 artifact/results/orc_layout_probe.json
 artifact/results/p2_qualified_20260821/VALIDATION.txt
 artifact/results/p2_qualified_20260821/bootstrap_pairwise_reversal.json
+artifact/results/p2_qualified_20260821/full_grid_inflation.csv
 artifact/results/p2_qualified_20260821/gate_report.json
 artifact/results/p2_qualified_20260821/gate_report_qualified_1.json
 artifact/results/p2_qualified_20260821/gate_report_qualified_2.json
@@ -219,6 +224,7 @@ artifact/results/p2_qualified_20260821/probe_metadata_direct_c8192.log
 artifact/results/p2_qualified_20260821/probe_metadata_footer.log
 artifact/results/p2_qualified_20260821/read_amplification_p2.csv
 artifact/results/p2_qualified_20260821/read_amplification_p2.json
+artifact/results/p2_qualified_20260821/read_vs_cost.csv
 artifact/results/read_amplification_t1.csv
 artifact/results/read_amplification_t1.json
 artifact/results/read_amplification_tpcds.csv
@@ -246,6 +252,7 @@ artifact/scripts/gate.py
 artifact/scripts/get_data.py
 artifact/scripts/plot_cross_dataset_chunk.py
 artifact/scripts/plot_read_amplification.py
+artifact/scripts/plot_schematics.py
 artifact/scripts/probe_fadvise_readahead.py
 artifact/scripts/probe_lance_default_mapping.py
 artifact/scripts/probe_metadata_share.py
@@ -254,6 +261,7 @@ artifact/scripts/probe_orc_layout.py
 artifact/scripts/read_amplification_report.py
 artifact/scripts/refresh_checksums.py
 artifact/scripts/report.py
+artifact/scripts/report_grid.py
 artifact/scripts/report_rerun.py
 artifact/scripts/run_column_count_scan.py
 artifact/scripts/run_experiment.py

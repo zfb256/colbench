@@ -1,9 +1,4 @@
-"""Diagnostic Parquet single-thread hot full-scan throughput.
-
-This is not a formal benchmark result. It answers whether this host's
-163 MB/s cold sequential gate is likely below, near, or above Parquet's
-single-thread hot-cache decode throughput on an 8M-row slice.
-"""
+'Diagnostic Parquet single-thread hot full-scan throughput.'
 
 from __future__ import annotations
 

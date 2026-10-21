@@ -1,15 +1,4 @@
-"""Page-cache control.
-
-A cold-cache measurement that did not actually evict reports memory bandwidth
-rather than device behaviour, so this module provides both the eviction and a
-check that it worked here:
-
-1. best-effort per-file eviction, and
-2. :func:`verify_eviction`, which measures the cold/warm ratio on this machine.
-
-Cold rows from a platform where :func:`verify_eviction` fails carry
-``eviction_verified == False`` and are excluded from analysis.
-"""
+'Page-cache control.'
 
 from __future__ import annotations
 
@@ -34,7 +23,6 @@ IS_MACOS = sys.platform == "darwin"
 
 _READ_BLOCK = 1 << 22
 
-# One protocol for both the storage gate and per-checkpoint verification.
 QUALIFICATION_TRIALS = 3
 
 
@@ -55,7 +43,6 @@ def evict(paths: Iterable[Path]) -> None:
 def _evict_posix(path: Path) -> None:
     fd = os.open(path, os.O_RDONLY)
     try:
-        # Dirty pages must be flushed before eviction.
         try:
             os.fsync(fd)
         except OSError:
@@ -66,12 +53,7 @@ def _evict_posix(path: Path) -> None:
 
 
 def _evict_windows(path: Path) -> None:
-    """Open the file unbuffered, which flushes its cached pages.
-
-    Windows exposes no supported per-file eviction call.  Opening a handle with
-    FILE_FLAG_NO_BUFFERING happens to purge that file's pages, but it is not a
-    documented contract -- hence :func:`verify_eviction`.
-    """
+    'Open the file unbuffered, which flushes its cached pages.'
     GENERIC_READ = 0x80000000
     FILE_SHARE_READ = 0x00000001
     OPEN_EXISTING = 3
@@ -130,17 +112,7 @@ def verify_eviction(
     min_ratio: float = 2.0,
     trials: int = 5,
 ) -> EvictionReport:
-    """Write a scratch file, then check that an evicted read is really slower.
-
-    Every trial must clear ``min_ratio``, not merely the median.  On Windows the
-    FILE_FLAG_NO_BUFFERING trick evicts *sometimes*, which is worse than never:
-    a median-based check passes on one run and fails on the next, and cold-cache
-    rows silently become a coin flip.  Requiring the worst trial to pass makes
-    intermittent eviction read as unsupported, which is the safe direction.
-
-    ``min_ratio`` is deliberately loose -- this is not a calibration, only a
-    guard against "cold" and "warm" being the same number.
-    """
+    'Write a scratch file, then check that an evicted read is really slower.'
     tmp_dir = Path(tmp_dir)
     tmp_dir.mkdir(parents=True, exist_ok=True)
     probe = tmp_dir / "_cache_probe.bin"

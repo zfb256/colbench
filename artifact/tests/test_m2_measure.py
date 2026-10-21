@@ -117,11 +117,7 @@ def test_cache_helpers_ignore_missing_and_directory_paths(tmp_path):
 
 @pytest.mark.slow
 def test_eviction_verification_runs_and_reports(tmp_path):
-    """Records whether cold-cache measurement is trustworthy on this platform.
-
-    Intentionally does not assert ``supported``: on Windows it is expected to
-    fail, and that failure is a finding we want printed, not an error.
-    """
+    'Records whether cold-cache measurement is trustworthy on this platform.'
     report = cache.verify_eviction(tmp_path, size_mb=64, trials=2)
     print(f"\n{report}")
     assert report.cold_s > 0 and report.warm_s > 0

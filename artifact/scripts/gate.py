@@ -1,18 +1,4 @@
-"""D1 go/no-go gate.
-
-Answers, on *this* machine and with measurements rather than assumptions:
-
-1. Are all three format adapters importable?
-2. Does cold random access rule out HDD-like seek behaviour?
-3. Does page-cache eviction actually work here, so "cold" means cold?
-4. Is ``read_bytes`` real device I/O, or only syscall bytes?
-5. Is there enough free space for the matrix?
-
-Exit code 0 = green, 1 = qualified storage with reduced experiment scope,
-2 = blocked.
-
-    python scripts/gate.py
-"""
+'D1 go/no-go gate.'
 
 from __future__ import annotations
 
@@ -35,13 +21,7 @@ MIN_SEQ_READ_MBPS = 300.0
 
 
 def check_device(work: Path) -> dict:
-    """Identify what work/ actually sits on.
-
-    Every timed read comes from work/, so this decides what the whole study
-    measured.  On a host with several volumes it is entirely possible to
-    benchmark a network mount by accident and never notice, because the numbers
-    look plausible -- just wrong.
-    """
+    'Identify what work/ actually sits on.'
     _hdr("0. device under test")
     info = paths.describe_mount(work)
     spin = paths.rotational(info.get("device"))
@@ -63,9 +43,8 @@ def check_device(work: Path) -> dict:
         print(f"  SUSPECT  : {info['note']}")
         print("  -> set COLBENCH_WORK to a directly mounted block filesystem and rerun.")
         print("     Sources may stay on the slow volume (COLBENCH_DATA); they are")
-        print("     read only during materialisation, never inside a timer.")
+        print("     read only during materialization, never inside a timer.")
     elif info["device"] is None:
-        # An unidentified device cannot be certified.
         print(f"  UNKNOWN  : {info['note']}")
         print("  -> the backing device could not be identified; verify by hand")
         print("     its storage semantics before trusting any timing.")
@@ -102,12 +81,7 @@ def check_space(work: Path) -> float:
 
 
 def check_sequential_read(work: Path, size_mb: int, evict_works: bool) -> float:
-    """Measure raw sequential read to sanity-check the storage class.
-
-    Only meaningful when eviction works.  Without it the read is served from the
-    page cache and reports RAM bandwidth, which would wrongly certify a slow
-    device as fast -- so the number is reported as unverified instead.
-    """
+    'Measure raw sequential read to sanity-check the storage class.'
     _hdr("4. sequential read throughput")
     probe = work / "_gate_seq.bin"
     block = os.urandom(1 << 20)
@@ -193,7 +167,6 @@ def main() -> int:
         print(f"  mismatch_cnt : {raid.get('mismatch_cnt')}")
     live, dead = check_formats()
     free = check_space(work)
-    # Verify eviction before measuring throughput.
     evict = check_eviction(work)
     mbps = check_sequential_read(work, 512, evict.supported)
     random_read = check_random_read(work, evict.supported)

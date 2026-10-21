@@ -48,9 +48,6 @@ def validate(path: Path, dataset: str, chunk: int, source: Path) -> None:
 
     _require(len(rows) == expected_records,
              f"expected {expected_records} records, got {len(rows)}")
-    # The reader lifetime decides what a timed cell measures, so a checkpoint
-    # that does not state it cannot be pooled with one that does. Historical
-    # rows predate the field and are reported as such rather than assumed.
     protocols = {json.dumps(row.get("protocol"), sort_keys=True) for row in rows}
     _require(len(protocols) == 1, "checkpoint mixes measurement protocols")
     protocol = rows[0].get("protocol")

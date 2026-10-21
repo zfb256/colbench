@@ -1,24 +1,4 @@
-"""Regenerate MANIFEST.txt and SHA256SUMS.txt for the whole bundle.
-
-Run this after any change to the bundle, and after transferring it, so the
-recorded digests describe what is actually present.
-
-    python scripts/refresh_checksums.py --verify      # check only, change nothing
-    python scripts/refresh_checksums.py               # check, then rewrite
-
-Paths are recorded **relative to the bundle root**, so
-
-    cd <bundle-root> && sha256sum -c SHA256SUMS.txt
-
-works on any machine. An earlier revision of this bundle recorded absolute
-`/root/colbench/...` paths from the measurement host, which made the file
-unverifiable anywhere else.
-
-Exit codes: 0 = everything matched (or was rewritten), 1 = mismatches or
-missing files were found. A mismatch on a large data file usually means the
-file was still being copied when the digest was taken -- rerun once the copy
-has finished rather than trusting the new value.
-"""
+'Regenerate MANIFEST.txt and SHA256SUMS.txt for the whole bundle.'
 
 from __future__ import annotations
 
@@ -31,9 +11,9 @@ ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / "MANIFEST.txt"
 SUMS = ROOT / "SHA256SUMS.txt"
 
-SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".venv", ".idea", "colbench-anon"}
+SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".venv", ".idea"}
 SELF = {MANIFEST.name, SUMS.name}
-SKIP_PATHS = {"paper/main.aux", "paper/main.blg", "paper/main.log"}
+SKIP_PATHS: set[str] = set()
 
 
 def iter_files(root: Path):
@@ -88,7 +68,6 @@ def main(argv=None) -> int:
         try:
             digests[rel] = sha256(path)
         except OSError as exc:
-            # Never record a digest for a file that may still be in flight.
             unreadable.append((rel, f"{type(exc).__name__}: {exc}"))
     print(f"hashed {len(digests)} files")
 
@@ -127,9 +106,6 @@ def main(argv=None) -> int:
     if args.verify:
         return 1 if (added or changed or removed) else 0
 
-    # Newlines are forced to LF: on Windows the default translation writes CRLF,
-    # and `sha256sum -c` on Linux then reads the trailing CR as part of every
-    # filename, failing every entry on a bundle whose contents are intact.
     SUMS.write_text("".join(f"{digests[r]}  {r}\n" for r in sorted(digests)),
                     encoding="utf-8", newline="\n")
     MANIFEST.write_text(f"{MANIFEST.name}\n"

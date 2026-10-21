@@ -1,32 +1,4 @@
-"""Where the two kinds of bytes live, and why they must be able to differ.
-
-A benchmark that measures storage must know *which* storage it measured.  Two
-directories, with very different requirements:
-
-``work/``
-    Materialised datasets.  **Every timed read comes from here**, so this
-    directory defines the device under test.  It must be a directly mounted
-    block filesystem with verified cache-eviction and non-HDD random-access
-    behaviour. Network filesystems and container shared volumes do not merely
-    add noise -- they replace the measurement with a measurement of something
-    else. Provider-managed virtual *block* devices are permitted only after the
-    measured storage gate passes, and must never be described as NVMe.
-
-``data/``
-    Downloaded and generated sources.  Read once, during materialisation, and
-    never inside a timer.  A slower volume here costs wall-clock during setup
-    and changes nothing that is reported.
-
-So on a host with a small native disk and a larger mounted one, the correct
-split is sources on the mount and ``work/`` on the native device -- never the
-other way round.
-
-Both are overridable so the split does not require symlinks, which are easy to
-get wrong and invisible in a log:
-
-    export COLBENCH_WORK=/qualified/block-device/colbench-work
-    export COLBENCH_DATA=/mnt/data/colbench-data
-"""
+'Where the two kinds of bytes live, and why they must be able to differ.'
 
 from __future__ import annotations
 
@@ -37,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def work_dir() -> Path:
-    """Directory holding materialised datasets -- the device under test."""
+    """Directory holding materialized datasets -- the device under test."""
     return Path(os.environ.get("COLBENCH_WORK") or (ROOT / "work")).resolve()
 
 
@@ -50,7 +22,6 @@ def results_dir() -> Path:
     return Path(os.environ.get("COLBENCH_RESULTS") or (ROOT / "results")).resolve()
 
 
-# Filesystems that cannot provide block-storage measurements.
 SUSPECT_FILESYSTEMS = {
     "nfs", "nfs4", "cifs", "smb", "smb2", "smb3", "fuse", "fuse.sshfs",
     "fuseblk", "virtiofs", "9p", "overlay", "overlayfs", "tmpfs", "ramfs",
@@ -59,11 +30,7 @@ SUSPECT_FILESYSTEMS = {
 
 
 def describe_mount(path: Path) -> dict:
-    """Identify the filesystem and device backing ``path``.
-
-    Returns ``{"mount", "fstype", "device", "suspect", "note"}``.  On non-Linux
-    hosts most fields are unknown, which is itself reported rather than guessed.
-    """
+    'Identify the filesystem and device backing ``path``.'
     path = Path(path).resolve()
     info = {"path": str(path), "mount": None, "fstype": None, "device": None,
             "suspect": False, "note": ""}
@@ -120,12 +87,7 @@ def _base_device_name(device: str) -> str:
 
 
 def virtualized(device: str | None) -> bool:
-    """Whether ``device`` is a virtual block-device identity, not physical media.
-
-    Virtio/Xen devices often report ``ROTA=1`` even when backed by cloud SSD.
-    This flag only says the physical medium is hidden; measured qualification is
-    still required before performance experiments may run.
-    """
+    'Whether ``device`` is a virtual block-device identity, not physical media.'
     if not device or not device.startswith("/dev/"):
         return False
     base = _base_device_name(device)
@@ -150,18 +112,10 @@ def rotational(
     *,
     sys_block: Path = Path("/sys/block"),
 ) -> bool | None:
-    """Return the physical media rotation flag when Linux exposes it.
-
-    MD devices can conservatively advertise ``ROTA=1`` even when every member
-    is NVMe.  For an aggregate, the member flags are stronger evidence than the
-    synthetic queue flag: all members must explicitly report non-rotational
-    before the aggregate is treated as solid state.  Mixed arrays remain
-    rotational and missing member evidence falls back to the aggregate flag.
-    """
+    'Return the physical media rotation flag when Linux exposes it.'
     if not device or not device.startswith("/dev/"):
         return None
     name = Path(device).name
-    # strip partition suffix: nvme0n1p3 -> nvme0n1, sda2 -> sda
     for candidate in (name, name.rstrip("0123456789"),
                       name.split("p")[0] if "nvme" in name else name):
         block = sys_block / candidate
@@ -241,15 +195,7 @@ QUEUE_KEYS = (
 
 
 def io_stack(path) -> dict:
-    """Kernel I/O parameters that decide how many bytes a read actually fetches.
-
-    Readahead is the reason two hosts can return different kernel-accounted byte
-    counts for byte-identical files under the same access plan.  A read-byte
-    model is only comparable across hosts that agree on these values, so they
-    belong in the measurement record rather than in a lab notebook.
-
-    Everything degrades to ``None`` off Linux instead of raising.
-    """
+    'Kernel I/O parameters that decide how many bytes a read actually fetches.'
     path = Path(path)
     info = {"available": False, "device": None, "sysfs": None, "queue": {},
             "mount_options": None, "md": None, "note": ""}

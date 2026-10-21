@@ -1,18 +1,5 @@
 #!/usr/bin/env python
-"""Does omitting Lance's row-group argument give a different layout?
-
-The paper calls the 1,024-row request Lance's "library default", but the sweep
-always passes ``max_rows_per_group`` explicitly, so that name was an assumption
-rather than a measurement. ORC has an equivalent probe; this is Lance's.
-
-Writes the same table twice -- once with the argument omitted, once at each
-swept request -- and compares the emitted fragment and page structure. If the
-omitted-argument layout matches every requested one, the writer is unresponsive
-across its whole documented surface and any swept cell is a valid stand-in for
-its default. If it differs, the paper must name the true default cell.
-
-Run:  python scripts/probe_lance_default_mapping.py <parquet-source> [out.json]
-"""
+"Does omitting Lance's row-group argument give a different layout?"
 from __future__ import annotations
 
 import json
@@ -43,13 +30,7 @@ def signature(path: Path) -> dict:
 
 def write_default(reader, path: Path, compression: str,
                   keep_file_cap: bool) -> None:
-    """Lance write with ``max_rows_per_group`` omitted.
-
-    ``max_rows_per_file`` is a separate control with its own default, so
-    omitting both at once would attribute a file-size effect to the grouping
-    argument. ``keep_file_cap`` isolates the grouping argument by holding the
-    file cap at the value the sweep uses.
-    """
+    'Lance write with ``max_rows_per_group`` omitted.'
     import lance
 
     schema = LanceAdapter._apply_compression(reader.schema, compression)

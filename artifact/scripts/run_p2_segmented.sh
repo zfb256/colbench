@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Run P2 as independently recoverable dataset/chunk checkpoints.
-# Start this script inside screen; it also records continuous RAID health.
 
 set -Eeuo pipefail
 

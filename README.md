@@ -10,8 +10,10 @@ tables and figures. The manuscript is intentionally distributed separately.
 - `artifact/scripts/`: data preparation, execution, validation, and plotting
 - `artifact/tests/`: correctness and protocol tests
 - `artifact/results/p2_qualified_20260821/`: formal 504-cell result set
-- `artifact/results/autodl_nvme_clean_20260816/`: discarded-reader-protocol
-  control used for the reader-lifetime comparison
+- `artifact/results/p2_qualified_20260821/probe_metadata_*.log`: same-host
+  reader-lifetime probes
+- `artifact/results/autodl_nvme_clean_20260816/`: earlier per-batch-reader run,
+  kept for audit history
 - `artifact/figures/`: figures regenerated from the formal results
 - `artifact/REPRODUCIBILITY.md`: full protocol and reproduction commands
 
@@ -37,11 +39,17 @@ The tests exercise logical correctness and protocol guards; they do not rerun
 storage timings. Timing replication requires Linux, a storage-qualified block
 device, and the source data described in `artifact/REPRODUCIBILITY.md`.
 
-## Regenerate the packaged figures
+## Regenerate the packaged figures and tables
 
-From `artifact/`:
+From `artifact/`, with the installed virtual environment activated. The
+outputs map to the paper as follows: `fig1_attribution` and `fig2_protocol` are
+Figures 1 and 2, `fig4_chunk_effect`, `fig5_read_amplification`, and
+`fig6_cross_dataset_chunk` are Figures 3 to 5, and `report_grid.py` writes
+Tables 7 and 8.
 
 ```bash
+source .venv/bin/activate
+python scripts/plot_schematics.py
 python scripts/report.py \
   'results/p2_qualified_20260821/p2_clickbench_32p_c*.jsonl' \
   --cache-mode cold --threads 1 --dataset clickbench_32p \
@@ -50,7 +58,9 @@ python scripts/plot_read_amplification.py \
   results/p2_qualified_20260821/read_amplification_p2.csv
 python scripts/plot_cross_dataset_chunk.py \
   results/p2_qualified_20260821
+python scripts/report_grid.py results/p2_qualified_20260821
 ```
 
-Each plotting entry point requires an explicit qualified input and validates
-the expected six-point sweep.
+These commands select the formal result set explicitly. The byte and
+cross-dataset plots validate the six-point sweep; input provenance must also
+be checked against `artifact/results/README.md`.

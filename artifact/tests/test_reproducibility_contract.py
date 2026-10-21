@@ -70,7 +70,6 @@ def _checkpoint_rows():
                         read_bytes=100 + index,
                         read_chars=200 + index,
                         rows=expected_rows,
-                        # Model a qualified Linux host.
                         disk_io_is_real=True,
                     )
                     for index in range(7)
@@ -90,7 +89,6 @@ def _checkpoint_rows():
                         "RAYON_NUM_THREADS": "1", "TOKIO_WORKER_THREADS": "1",
                     }},
                     **measure.Result(samples).summary(),
-                    # Override the current host's accounting capability.
                     "disk_io_is_real": True,
                 })
     return rows
@@ -163,7 +161,6 @@ def test_checkpoint_validator_cannot_be_disabled_with_python_optimized(tmp_path)
     assert "expected 12 records" in completed.stderr
 
 
-# Render fixture paths consistently across platforms.
 BOUNDARY_WORK = Path("/work")
 BOUNDARY_DATA = Path("/data")
 BOUNDARY_RESULTS = Path("/results")

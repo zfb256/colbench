@@ -42,7 +42,7 @@ work. Windows is usable for correctness work only.
 python scripts/gate.py
 ```
 
-Exit `0` green, `1` qualified storage with reduced format scope, `2` blocked.
+Exit `0` green, `1` qualified storage with scope or free-space warnings, `2` blocked.
 It verifies by measurement that cache eviction works, `read_bytes` reflects
 kernel-accounted storage I/O, and sequential and random reads meet the gate. A
 virtual block device may qualify, but is never relabelled as NVMe. The full
@@ -82,8 +82,9 @@ python scripts/run_experiment.py fig2 --dataset clickbench_8p --repeats 5
 | `fig2`  | shuffle-locality sweep (A3 / C2) | artifact diagnostic |
 | `fig3`  | point lookup + selectivity (A4/A5) | artifact diagnostic |
 | `fig4`  | chunk-size sweep (C1) | paper group-size figure source |
-Cold-cache cells are only requested when the host can actually evict; otherwise
-the run degrades to warm and says so.
+The experiment entry point normally rejects an invalid storage gate. It does
+not automatically convert cold cells to warm; explicitly overridden runs may
+retain unverified cold rows, which the analysis guard excludes.
 
 ## 4. Report
 
@@ -114,6 +115,8 @@ scripts/
   tpch_model_screen.py      TPC-H Parquet byte-model screening
   plot_cross_dataset_chunk.py normalized ClickBench/TPC-H/TPC-DS shuffle plot
   plot_read_amplification.py explicit-input Parquet byte-model plot
+  plot_schematics.py   attribution and protocol schematics
+  report_grid.py       full-grid inflation and read-versus-cost tables
   read_amplification_report.py explicit-input Parquet footer analysis
   run_p2_segmented.sh  formal 18-checkpoint P2 driver
   report_rerun.py      formal P2 tables and validation summary
@@ -131,9 +134,9 @@ scripts/
 These are load-bearing; violating one invalidates results rather than merely
 degrading them.
 
-1. **Never materialise a full table.** Everything streams, so peak memory is one
-   chunk. 16 GB handles datasets far larger than RAM; a single `read_table()`
-   breaks that.
+1. **Bound materialization where possible.** Scans stream batches, but sparse
+   reads decode whole row groups or stripes and collect selected rows. Memory
+   needs depend on layout, projection, and reader; no fixed 16 GB bound is guaranteed.
 2. **Never leave thread count to the default.** pyarrow will use every core and
    make numbers irreproducible. Pinned explicitly, reported per run.
 3. **Never trust a cold number without verified eviction.** Every record carries
@@ -153,7 +156,8 @@ degrading them.
 python -m pytest tests/ -q
 ```
 
-Current packaged check: `197 passed`. The tests need no network access. The
+The previously recorded packaged test result was `197 passed`; rerun the
+command above to validate a modified checkout. The tests need no network access. The
 formal timing runs were measured on Linux with Python 3.12.3, PyArrow 25.0.0
 and Lance 9.0.0; correctness tests do not reproduce the reported timings.
 `tests/test_m6_fairness.py` is the one to

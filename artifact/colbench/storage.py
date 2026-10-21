@@ -1,16 +1,4 @@
-"""Measured storage qualification for performance experiments.
-
-Cloud VMs frequently expose provider-managed block storage as ``/dev/vd*`` and
-set the Linux rotational flag conservatively.  That flag is useful for a
-physical disk, but it is not evidence that the provider's hidden backend is an
-HDD.  This module therefore separates two questions:
-
-* does the mount have the semantics needed for honest cold-cache measurement?
-* does measured cold random access rule out HDD-like seek behaviour?
-
-The result qualifies a device for this experiment; it never relabels an
-unknown backend as NVMe or even as SSD.
-"""
+'Measured storage qualification for performance experiments.'
 
 from __future__ import annotations
 
@@ -155,12 +143,7 @@ def classify_random_trials(
     max_median_ms: float = MAX_RANDOM_MEDIAN_MS,
     min_iops: float = MIN_RANDOM_IOPS,
 ) -> RandomReadReport:
-    """Classify queue-depth-one cold random reads.
-
-    Every trial must pass.  A median below five milliseconds plus more than 250
-    IOPS is deliberately a loose HDD-exclusion threshold, not an SSD benchmark
-    or a claim about the provider's physical medium.
-    """
+    'Classify queue-depth-one cold random reads.'
     if not trial_latencies_ms or any(not trial for trial in trial_latencies_ms):
         raise ValueError("at least one non-empty random-read trial is required")
 
@@ -210,13 +193,7 @@ def benchmark_cold_random_reads(
     trials: int = 3,
     block_size: int = 4096,
 ) -> RandomReadReport:
-    """Measure cold 4-KiB random reads at queue depth one.
-
-    The file is real (not sparse), fsynced, evicted before every trial, and read
-    at unique pseudo-random offsets.  ``POSIX_FADV_RANDOM`` suppresses sequential
-    readahead where Linux supports it.  This is a qualification probe, not a
-    published workload result.
-    """
+    'Measure cold 4-KiB random reads at queue depth one.'
     if not hasattr(os, "pread"):
         raise RuntimeError("cold random-read qualification requires os.pread")
 

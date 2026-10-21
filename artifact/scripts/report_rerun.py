@@ -1,20 +1,5 @@
 #!/usr/bin/env python
-"""Turn a results directory into every number the paper needs.
-
-Written so the post-run turnaround is one command rather than an afternoon of
-ad-hoc analysis, and so a partial run still yields whatever it can: every
-section degrades to "insufficient data" instead of failing.
-
-Emits, for each stratum it can support:
-
-  1. sweep swing per format per access          -> Table IV
-  2. default-pairing inflation per format pair  -> Table V
-  3. capability audit from emitted layouts      -> Table II
-  4. per-projected-column-chunk residual k      -> Section V-E/F
-  5. LaTeX-ready rows for 1-3
-
-Run:  python scripts/report_rerun.py <results-dir> [more dirs] [--tex]
-"""
+'Turn a results directory into every number the paper needs.'
 from __future__ import annotations
 
 import json
@@ -24,8 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 
 DEFAULTS = {"parquet": 1_048_576, "lance": 1_024, "orc": 1_048_576}
-#: Formats whose sweep maps to one physical layout: reusing the default cell
-#: keeps repeat-measurement noise from being counted as a tuning opportunity.
+# Reuse the representative cell for singleton layouts rather than optimizing measurement noise.
 FIXED_LAYOUT = {"lance"}
 
 
@@ -33,10 +17,7 @@ def load(dirs: list[str]) -> list[dict]:
     recs = []
     for d in dirs:
         p = Path(d)
-        # Results directories intentionally contain pre-fix archives and
-        # quarantined partial checkpoints. Recursing here silently mixed those
-        # records into the formal rerun. A directory argument means its direct
-        # result files; callers can still pass an archive or file explicitly.
+        # Read direct children only to avoid pooling archived protocols or partial checkpoints.
         files = sorted(p.glob("*.jsonl")) if p.is_dir() else [p]
         files = [f for f in files if ".partial-" not in f.name]
         for f in files:
@@ -102,7 +83,6 @@ def inflation(recs: list[dict]) -> list[tuple]:
                     continue
                 ma = da if a in FIXED_LAYOUT else min(ta.values())
                 mb = db if b in FIXED_LAYOUT else min(tb.values())
-                # orient on whichever format leads at the default point
                 if da < db:
                     lead, adv_d, adv_o = a, db / da, mb / ma
                 else:
@@ -176,7 +156,6 @@ def residual(recs: list[dict], layout_json: Path | None) -> None:
                 print("    chunk %9d  skipped: projected column count unknown" % c)
                 continue
             row = layout[c]
-            # divide by the columns this access actually projected, not a constant
             k = ((nbytes - row["predicted_MB"] * 1e6)
                  / (row["row_groups_touched"] * ncol) / 1000)
             if c <= 131_072:

@@ -1,7 +1,4 @@
-"""Milestone 3 self-test: access patterns, above all the shuffle-window knob.
-
-These tests pin the shuffle-window semantics down numerically.
-"""
+'Milestone 3 self-test: access patterns, above all the shuffle-window knob.'
 
 from __future__ import annotations
 

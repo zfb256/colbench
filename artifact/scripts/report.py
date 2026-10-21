@@ -1,14 +1,4 @@
-"""Turn results JSONL into figures and tables.
-
-    python scripts/report.py results/fig2.jsonl --cache-mode cold --threads 1
-
-One report must describe one dataset, cache mode, and thread count. If an input
-contains more than one value on those axes, select the scope explicitly; the
-tool refuses to average unlike experiments.
-
-Prints the guard report first, on purpose: a reader should see what was thrown
-away before seeing what survived.
-"""
+'Turn results JSONL into figures and tables.'
 
 from __future__ import annotations
 

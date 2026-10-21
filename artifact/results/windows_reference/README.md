@@ -79,6 +79,6 @@ the other.
 python scripts/crosshost_check.py --csv results/crosshost_shuffle_swing.csv
 ```
 
-The script summarises each host separately and compares only the resulting
+The script summarizes each host separately and compares only the resulting
 swing factors. It restricts itself to the four chunk sizes both sweeps share,
 and reports disagreement rather than agreement if the hosts diverge.

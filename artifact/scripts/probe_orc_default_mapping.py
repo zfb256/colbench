@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Measure PyArrow ORC's default 64 MiB stripe layout on a real dataset.
-
-This is a layout-only audit, not timing evidence.  The ORC writer deliberately
-omits ``stripe_size`` while retaining the benchmark's ZSTD compression and
-canonical schema.  Its output says whether a swept request tier can honestly
-stand in for the library default.
-"""
+"Measure PyArrow ORC's default 64 MiB stripe layout on a real dataset."
 
 from __future__ import annotations
 
@@ -44,7 +38,6 @@ def main() -> int:
         prefix="orc-default-layout-", dir=str(ROOT / "results")
     ) as tmp:
         target = Path(tmp) / "default.orc"
-        # Omit stripe_size on purpose: PyArrow 25 defaults to 64 MiB.
         writer = orc.ORCWriter(target, compression="zstd")
         try:
             for batch in canonical:

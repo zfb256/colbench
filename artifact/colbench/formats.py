@@ -1,13 +1,4 @@
-"""Format adapters.
-
-Every adapter exposes the same surface so the access-pattern layer never needs to
-know which format it is driving.  The point of the study is that the *protocol*
-is identical across formats; any per-format special casing belongs here and
-nowhere else.
-
-Availability is probed lazily: Vortex ships no Windows wheels, so on Windows the
-Vortex adapter reports ``available == False`` instead of blowing up at import.
-"""
+'Format adapters.'
 
 from __future__ import annotations
 
@@ -25,20 +16,13 @@ import pyarrow as pa
 
 @dataclass(frozen=True)
 class Predicate:
-    """A single-column comparison, e.g. ``Predicate("v0", "<", 0.01)``.
-
-    Deliberately minimal.  Selectivity sweeps only need one comparison; richer
-    predicates would make cross-format translation a confound of its own.
-    """
+    'A single-column comparison, e.g. ``Predicate("v0", "<", 0.01)``.'
 
     column: str
     op: str  # one of < <= > >= == !=
     value: object
 
     def to_sql(self) -> str:
-        # Bare identifiers on purpose: Lance's DataFusion planner reads a
-        # double-quoted name as a *string literal*, so `"i0" < 100` fails with a
-        # cast error rather than filtering on the column.
         if not self.column.replace("_", "").isalnum():
             raise ValueError(
                 f"column {self.column!r} needs quoting, which is not portable "
@@ -93,11 +77,7 @@ class FormatAdapter(abc.ABC):
             path.unlink()
 
     def files(self, path: Path) -> list[Path]:
-        """Every on-disk file backing ``path``.
-
-        The cache layer needs this to evict a dataset; multi-file formats such
-        as Lance must not be evicted by touching the top-level directory only.
-        """
+        'Every on-disk file backing ``path``.'
         path = Path(path)
         if path.is_dir():
             return [p for p in path.rglob("*") if p.is_file()]
@@ -115,12 +95,7 @@ class FormatAdapter(abc.ABC):
         chunk_rows: int,
         compression: str = "zstd",
     ) -> None:
-        """Materialise ``reader`` at ``path`` with a controlled chunk size.
-
-        ``chunk_rows`` is a benchmark request, not proof of a shared physical
-        unit. Each adapter passes the closest available control to its writer;
-        the fairness audit checks the emitted layout independently.
-        """
+        'Write the requested layout; emitted metadata determines whether the control took effect.'
 
     @abc.abstractmethod
     def n_rows(self, path: Path) -> int: ...
@@ -170,21 +145,16 @@ class ParquetAdapter(FormatAdapter):
 
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
-        # A cached reader still holds this file open, and Windows refuses to
-        # unlink an open file. Drop the handle before rewriting the layout.
         self._clear_take_cache(path)
         self.remove(path)
 
         writer = pq.ParquetWriter(str(path), reader.schema, compression=compression)
         try:
             for chunk in _rechunk(reader, chunk_rows):
-                # one write_table call == one row group, so chunk_rows is exact
                 writer.write_table(chunk)
         finally:
             writer.close()
 
-    # Hoist immutable footer metadata out of repeated take() calls.  The key
-    # invalidates automatically when a layout is rewritten.
     _ROW_GROUP_CACHE: dict[tuple, tuple[object, np.ndarray]] = {}
 
     def _file_and_starts(self, path):
@@ -241,20 +211,13 @@ class ParquetAdapter(FormatAdapter):
         yield from pf.iter_batches(batch_size=batch_rows, columns=list(columns) if columns else None)
 
     def take(self, path, indices, *, columns=None):
-        """Parquet has no row-level index, so we do what a real engine does:
-        map each requested row to its row group, read only the row groups that
-        are actually needed, and gather within them.
-
-        This is why Parquet is expensive under random access -- the row group
-        is the unit of I/O no matter how few rows you want out of it.
-        """
+        'Parquet has no row-level index, so we do what a real engine does: map each requested row to its row group, read only the row groups that are actually needed, and gather within them.'
         pf, starts = self._file_and_starts(path)
         cols = list(columns) if columns else None
 
         indices = np.asarray(indices, dtype=np.int64)
         rg_of = np.searchsorted(starts, indices, side="right") - 1
 
-        # Preserve the caller's row order: remember where each index landed.
         order = np.argsort(rg_of, kind="stable")
         tables: list[pa.Table] = []
         for rg in np.unique(rg_of):
@@ -265,7 +228,6 @@ class ParquetAdapter(FormatAdapter):
         if not tables:
             return pf.schema_arrow.empty_table() if cols is None else pa.table({})
         out = pa.concat_tables(tables)
-        # undo the grouping permutation so results match `indices` positionally
         inverse = np.argsort(order, kind="stable")
         return out.take(pa.array(inverse))
 
@@ -286,7 +248,6 @@ class LanceAdapter(FormatAdapter):
     _module = "lance"
     writes_single_file = False
 
-    # Lance compression is schema metadata; "lance: compression" is ignored.
     COMPRESSION_KEY = b"lance-encoding:compression"
 
     @classmethod
@@ -314,11 +275,6 @@ class LanceAdapter(FormatAdapter):
             for batch in reader:
                 yield pa.RecordBatch.from_arrays(batch.columns, schema=schema)
 
-        # Raise the file cap so it is not the binding control, and record what
-        # the writer actually emitted. This does NOT produce a single file: the
-        # evaluated Lance path still splits on its own fragment boundary, so
-        # file count remains an uncontrolled difference against single-file
-        # Parquet and ORC, and is reported rather than assumed away.
         lance.write_dataset(
             pa.RecordBatchReader.from_batches(schema, batches()),
             str(path),
@@ -351,24 +307,13 @@ class LanceAdapter(FormatAdapter):
         return lance.dataset(str(path)).count_rows()
 
     def emitted_layout(self, path) -> list[int]:
-        """Rows per emitted fragment.
-
-        Lance's writer accepts a row-group argument, so recording what it
-        actually emitted is the only way a record can show that the request did
-        not reach the file.
-        """
+        'Rows per emitted fragment.'
         import lance
 
         return [f.count_rows() for f in lance.dataset(str(path)).get_fragments()]
 
     def layout_signature(self, path) -> dict:
-        """Fragment rows *and* per-column page counts.
-
-        Fragment rows alone cannot settle the question: a writer could leave
-        fragments unchanged while repaginating inside them.  Recording the page
-        dimension is what turns "the argument did not reach the file" from an
-        inference into an observation.
-        """
+        'Fragment rows *and* per-column page counts.'
         import lance
         from lance.file import LanceFileReader
 
@@ -413,25 +358,11 @@ class LanceAdapter(FormatAdapter):
 
 
 class OrcAdapter(FormatAdapter):
-    """ORC, whose horizontal unit is denominated in *bytes*, not rows.
-
-    Sweeping ORC by the same numeric argument as Parquet would compare two
-    different physical treatments, which is the failure this benchmark exists to
-    detect.  Instead the adapter takes the same *physical target* -- rows per
-    group -- and converts it into the byte request its writer accepts, using a
-    compressed bytes-per-row rate measured from the emitted file itself.  What
-    the writer actually produced is then read back from the footer by
-    :meth:`emitted_layout`, so the target is audited rather than assumed.
-    """
+    'ORC, whose horizontal unit is denominated in *bytes*, not rows.'
 
     name = "orc"
     _module = "pyarrow.orc"
 
-    #: ORC has no unsigned integer types; a source carrying them must be
-    #: canonicalised for *every* format before the comparison starts, so that a
-    #: schema difference never becomes a format difference.
-    #: ORC names the empty codec ``UNCOMPRESSED``; the benchmark says ``none``.
-    #: Translating here keeps the request identical across formats.
     _CODECS = {"none": "UNCOMPRESSED", "uncompressed": "UNCOMPRESSED"}
 
     def _codec(self, compression: str) -> str:
@@ -469,14 +400,7 @@ class OrcAdapter(FormatAdapter):
 
     def _rate_from_stream(self, reader, compression: str,
                           sample_rows: int = 200_000):
-        """Measure bytes per row from the head of ``reader`` and give it back.
-
-        The rate depends on the data, not on the stripe target, so measuring it
-        inside a write cannot absorb the effect being swept.  A sweep should
-        still pass one dataset-level rate explicitly, so that every setting is
-        converted by the same constant; this path exists so the adapter remains
-        usable on its own.
-        """
+        'Measure bytes per row from the head of ``reader`` and give it back.'
         import pyarrow.orc as orc
 
         buffered, taken = [], 0
@@ -504,10 +428,6 @@ class OrcAdapter(FormatAdapter):
 
         return orc.ORCFile(str(path)).nrows
 
-    #: Stripe row counts keyed by (path, size, mtime_ns).  ORC exposes no
-    #: metadata-only API for them, so they cost one narrow-column pass over the
-    #: file; ``take()`` needs them on every call and the file never changes
-    #: during a logical access, so the pass must happen once per access, not per batch.
     _STRIPE_CACHE: dict[tuple, list[int]] = {}
     _TAKE_FILE_CACHE: dict[str, object] = {}
 
@@ -557,8 +477,6 @@ class OrcAdapter(FormatAdapter):
             return hit
 
         f = orc.ORCFile(str(path))
-        # Reading every column just to learn row counts costs a full file read
-        # per call; one narrow column answers the same question far cheaper.
         col = self._narrowest_column(f.schema)
         rows = [f.read_stripe(i, columns=[col]).num_rows for i in range(f.nstripes)]
         self._STRIPE_CACHE[key] = rows
@@ -592,11 +510,7 @@ class OrcAdapter(FormatAdapter):
                 yield b
 
     def take(self, path, indices, *, columns=None):
-        """Stripe-granular gather, the ORC analogue of Parquet row groups.
-
-        The stripe is the unit of I/O, so a request for a handful of rows still
-        pays for every column chunk in each stripe it touches.
-        """
+        'Stripe-granular gather, the ORC analogue of Parquet row groups.'
         starts = self._stripe_starts(path)
         f = self._take_file(path)
         cols = list(columns) if columns else None
@@ -637,18 +551,7 @@ class VortexAdapter(FormatAdapter):
 
     @classmethod
     def probe(cls) -> tuple[bool, str]:
-        """Reject Vortex versions that cannot satisfy the benchmark contract.
-
-        Importability is not enough here.  In vortex-data 0.83.0 the Python
-        writer exposes neither a codec selector nor a physical chunk-size
-        control: ``VortexWriteOptions.default/compact`` are whole-writer
-        strategies, not the requested ``none/zstd`` codec, and input record
-        batch boundaries are coalesced into fixed 65,536-row file splits.
-
-        Treating that release as live would silently compare different
-        compression requests and sweep a no-op ``chunk_rows`` axis.  Keep it
-        quarantined until the pinned Vortex API can honour both controls.
-        """
+        'Reject Vortex versions that cannot satisfy the benchmark contract.'
         ok, version = super().probe()
         if not ok:
             return ok, version
@@ -693,11 +596,7 @@ class VortexAdapter(FormatAdapter):
 
 
 def _rechunk(reader: Iterable[pa.RecordBatch], chunk_rows: int) -> Iterator[pa.Table]:
-    """Regroup an arbitrary batch stream into tables of exactly ``chunk_rows``.
-
-    Streaming on purpose: peak memory is one chunk, so a 16 GB box can write a
-    dataset far larger than RAM.  Never materialise the whole thing.
-    """
+    'Regroup an arbitrary batch stream into tables of exactly ``chunk_rows``.'
     if chunk_rows <= 0:
         raise ValueError("chunk_rows must be positive")
 
@@ -719,10 +618,7 @@ def _rechunk(reader: Iterable[pa.RecordBatch], chunk_rows: int) -> Iterator[pa.T
 
 
 def _orc_bytes_per_row(sample: pa.Table, compression: str) -> float:
-    """Compressed ORC bytes per row for ``sample``, measured in memory.
-
-    One stripe, so the number reflects payload rather than per-stripe overhead.
-    """
+    'Compressed ORC bytes per row for ``sample``, measured in memory.'
     import pyarrow.orc as orc
 
     sink = pa.BufferOutputStream()
@@ -730,9 +626,7 @@ def _orc_bytes_per_row(sample: pa.Table, compression: str) -> float:
     return len(sink.getvalue()) / sample.num_rows
 
 
-#: Unsigned widths that fit losslessly in a signed type ORC can represent.
-#: ``uint64`` is absent on purpose: no signed Arrow integer holds its full
-#: range, so canonicalising it would silently corrupt values above 2^63-1.
+# Widen every writer's schema consistently; uint64 cannot fit losslessly in a signed type.
 UNSIGNED_TO_SIGNED = {
     "uint8": pa.int16(),
     "uint16": pa.int32(),
@@ -741,18 +635,11 @@ UNSIGNED_TO_SIGNED = {
 
 
 def canonical_schema(schema: pa.Schema) -> tuple[pa.Schema, list[tuple[str, str, str]]]:
-    """One schema every candidate writer can represent, plus what changed.
-
-    ORC has no unsigned integer types.  Casting only for ORC would make the
-    schema itself differ across the comparison, so the widening is applied to
-    every format or to none; the returned change list is recorded with the run.
-    ``uint64`` is rejected rather than widened: every signed Arrow integer is
-    too narrow for its top bit, so a silent cast could change values.
-    """
+    'One schema every candidate writer can represent, plus what changed.'
     unsupported = [f.name for f in schema if str(f.type) == "uint64"]
     if unsupported:
         raise ValueError(
-            f"uint64 columns {unsupported} cannot be canonicalised without "
+            f"uint64 columns {unsupported} cannot be canonicalized without "
             "possible value loss; cast or drop them before benchmarking"
         )
     fields, changes = [], []
@@ -788,13 +675,7 @@ def canonical_reader(reader: pa.RecordBatchReader) -> tuple[pa.RecordBatchReader
 def measure_bytes_per_row(source_reader: pa.RecordBatchReader, *,
                           compression: str = "zstd",
                           sample_rows: int = 200_000) -> float:
-    """Compressed ORC bytes per row, measured once per dataset.
-
-    The ORC sweep is expressed as a rows-per-stripe target; converting that
-    target into the byte request the writer accepts needs a rate, and taking it
-    from a real sample of the same data keeps the conversion reproducible and
-    auditable rather than tuned per setting.
-    """
+    'Compressed ORC bytes per row, measured once per dataset.'
     rows, taken = [], 0
     for batch in source_reader:
         rows.append(batch)

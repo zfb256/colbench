@@ -56,7 +56,7 @@ def test_dataset_describe_reports_shape():
     assert d["n_rows"] == SPEC.n_rows and d["synthetic"] is True
 
 
-def test_dataset_reader_canonicalises_unsigned_columns_for_every_format(tmp_path):
+def test_dataset_reader_canonicalizes_unsigned_columns_for_every_format(tmp_path):
     source = tmp_path / "unsigned.parquet"
     pq.write_table(pa.table({
         "EventDate": pa.array([1, 2], type=pa.uint16()),

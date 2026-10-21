@@ -1,9 +1,4 @@
-"""Parquet read-amplification accounting.
-
-This module is intentionally analytical: it reads Parquet footer metadata and
-computes the compressed column-chunk bytes touched by an access plan. It does
-not execute the reader and does not depend on a particular storage device.
-"""
+'Parquet read-amplification accounting.'
 
 from __future__ import annotations
 

@@ -1,12 +1,4 @@
-"""Cross-host robustness check for the chunk-size effect.
-
-The qualified T1 run used AutoDL NVMe RAID1. This script compares it with the
-earlier Alibaba Cloud mechanism run and a warm-cache Windows NVMe reference.
-The record sets are never pooled; each is summarised independently.
-
-    python scripts/crosshost_check.py
-    python scripts/crosshost_check.py --csv results/crosshost_shuffle_swing.csv
-"""
+'Cross-host robustness check for the chunk-size effect.'
 
 from __future__ import annotations
 
@@ -20,11 +12,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# The Windows sweep lacks the two endpoints.
 SHARED_CHUNKS = (8_192, 32_768, 131_072, 524_288)
 
 MAIN_GLOB = "results/autodl_nvme_clean_20260816/fig4_clickbench_32p_c*.jsonl"
-ALIYUN_GLOB = "results/fig4_clickbench_32p_c*.jsonl"
+ALIYUN_GLOB = "results/legacy_aliyun_20260813/fig4_clickbench_32p_c*.jsonl"
 REF_GLOB = "results/windows_reference/fig4.jsonl"
 
 
@@ -38,14 +29,8 @@ def load(pattern: str) -> list[dict]:
     return out
 
 
-def summarise(records: list[dict], host: str) -> list[dict]:
-    """Swing factor per (cache mode, format, access) over the shared chunks.
-
-    Grouping is by the full access *label*, not by ``access.kind``: the "scan"
-    kind covers both the all-column scan and the 10-column projection, which
-    differ by more than an order of magnitude. Keying on kind silently collapses
-    them and reports whichever record happened to be read last.
-    """
+def summarize(records: list[dict], host: str) -> list[dict]:
+    'Swing factor per (cache mode, format, access) over the shared chunks.'
     grouped: dict[tuple, dict[int, float]] = defaultdict(dict)
     for rec in records:
         chunk = rec["chunk_rows"]
@@ -114,11 +99,11 @@ def main(argv=None) -> int:
     print("Alibaba   :", describe(aliyun_recs))
     print("Windows   :", describe(ref_recs))
     print(f"\nshared chunk sizes: {list(SHARED_CHUNKS)}")
-    print("records are summarised separately and never pooled.\n")
+    print("records are summarized separately and never pooled.\n")
 
-    rows = (summarise(ref_recs, "windows-local-nvme")
-            + summarise(aliyun_recs, "aliyun-cloud-block")
-            + summarise(main_recs, "autodl-nvme-raid1"))
+    rows = (summarize(ref_recs, "windows-local-nvme")
+            + summarize(aliyun_recs, "aliyun-cloud-block")
+            + summarize(main_recs, "autodl-nvme-raid1"))
 
     hdr = (f"{'host':20s} {'cache':5s} {'format':8s} {'access':38s} "
            f"{'swing':>8s} {'best@':>9s}")

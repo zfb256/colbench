@@ -1,7 +1,4 @@
-"""Milestone 1 self-test: format adapters round-trip correctly.
-
-Run:  .venv\\Scripts\\python.exe -m pytest tests/test_m1_formats.py -v
-"""
+'Milestone 1 self-test: format adapters round-trip correctly.'
 
 from __future__ import annotations
 
@@ -72,10 +69,7 @@ def test_projection_returns_only_requested_columns(written, name):
 
 @pytest.mark.parametrize("name", LIVE)
 def test_take_returns_requested_rows_in_order(written, name):
-    """The critical one: random access must be positionally faithful.
-
-    A `take` that silently reorders would make A3/A4 timings meaningless.
-    """
+    'The critical one: random access must be positionally faithful.'
     ad, path = written[name]
     rng = np.random.default_rng(7)
     idx = rng.choice(SPEC.n_rows, size=500, replace=False).astype(np.int64)
@@ -120,11 +114,7 @@ def test_filter_scan_matches_reference(written, name):
 
 
 def test_parquet_chunk_rows_controls_row_group_size(tmp_path):
-    """C4 depends on chunk_rows really setting the physical grouping.
-
-    If this silently no-ops, the whole default-parameter contribution collapses,
-    so assert it against the file metadata rather than trusting the writer.
-    """
+    'C4 depends on chunk_rows really setting the physical grouping.'
     import pyarrow.parquet as pq
 
     ad = get_adapter("parquet")

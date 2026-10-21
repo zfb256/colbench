@@ -1,18 +1,4 @@
-"""Quantify the per-column-row-group overhead left unexplained by the byte model.
-
-The column-chunk model predicts the bytes a layout forces a reader to fetch. It
-tracks the measurement at mid and large row groups and underpredicts sharply at
-small ones. This script tests whether the shortfall is proportional to the
-number of projected column chunks the access touches, which is what a
-per-column-row-group fixed cost would predict:
-
-    measured = predicted_union + a + b * |G(I)| * |C|
-
-A good fit turns "reader-side fixed overhead" from a qualitative statement into
-a coefficient with units of bytes per projected column chunk.
-
-    python scripts/fit_group_overhead.py
-"""
+'Quantify the per-column-row-group overhead left unexplained by the byte model.'
 
 from __future__ import annotations
 
@@ -38,11 +24,7 @@ CHUNKS = (1024, 8192, 32768, 131072, 524288, 1048576)
 
 
 def touched_row_groups(chunk_rows: int) -> int:
-    """Distinct row groups the T1 shuffle plan intersects at this chunk size.
-
-    Row group boundaries are implied by the writer: group g covers rows
-    [g*chunk, (g+1)*chunk), so no file access is needed to map an index.
-    """
+    'Distinct row groups the T1 shuffle plan intersects at this chunk size.'
     batches = access_mod.shuffle_batches(
         N_ROWS, batch_rows=BATCH_ROWS, window=WINDOW,
         n_batches=N_BATCHES, seed=SEED,
@@ -100,7 +82,6 @@ def main() -> int:
               f"{r['measured_MB']:>9.1f} {r['residual_MB']:>9.1f} "
               f"{r['residual_per_column_group_KB']:>19.2f}")
 
-    # The 1,024-row case contributes 15,721 of 18,464 touched groups.
     g = np.array([r["row_groups_touched"] for r in rows], dtype=float)
     resid = np.array([r["residual_MB"] for r in rows], dtype=float) * 1e6
     A = np.vstack([np.ones_like(g), g]).T
@@ -120,7 +101,6 @@ def main() -> int:
     print(f"    chunk {worst['chunk_rows']:,d}: residual {worst['residual_MB']:.1f} MB, "
           f"fitted {wf:.1f} MB ({wf / max(worst['residual_MB'], 1e-9):.1f}x over)")
 
-    # Fit the range where per-group cost dominates separately.
     SMALL = [r for r in rows if r["chunk_rows"] <= 131_072]
     LARGE = [r for r in rows if r["chunk_rows"] > 131_072]
     per_small = np.array([r["residual_per_group_KB"] for r in SMALL])

@@ -1,8 +1,4 @@
-"""Milestone 5 self-test: the analysis layer, especially what it refuses.
-
-Synthetic records throughout, so these tests pin down the *logic* without
-needing a benchmark run.
-"""
+'Milestone 5 self-test: the analysis layer, especially what it refuses.'
 
 from __future__ import annotations
 
@@ -207,7 +203,7 @@ def test_chunk_sensitivity_reports_swing_and_best_chunk():
     assert row["best_chunk_rows"] == 131_072
 
 
-def test_gap_shrinks_when_defaults_are_neutralised():
+def test_gap_shrinks_when_defaults_are_neutralized():
     """The C4 claim: an advantage at defaults partly survives tuning, or not."""
     df = frame([
         rec("parquet", 4_096, 0.40, chunk=1_048_576, label="A"),

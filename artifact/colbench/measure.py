@@ -1,14 +1,4 @@
-"""Timing, I/O accounting, thread control and repetition statistics.
-
-Three conditions this module enforces on every measured cell:
-
-* Thread pools are pinned rather than left at the library default, which scales
-  with the host's core count and so is not comparable across machines.
-* Kernel-accounted read bytes and process CPU time are recorded alongside wall
-  time, so a difference can be attributed to retrieval or to decoding.
-* Statistics are the median and interquartile range over repetitions; a single
-  run is reported as such and never as a measurement.
-"""
+'Timing, I/O accounting, thread control and repetition statistics.'
 
 from __future__ import annotations
 
@@ -25,7 +15,6 @@ import psutil
 
 _PROC = psutil.Process()
 
-# Windows reports syscall bytes rather than device I/O.
 DISK_IO_IS_REAL = sys.platform.startswith("linux")
 
 
@@ -133,11 +122,7 @@ def repeat(
     setup: Callable[[], None] | None = None,
     warmup: int = 0,
 ) -> Result:
-    """Run ``fn`` ``n`` times, calling ``setup`` before each run.
-
-    ``setup`` is where cache preparation goes, so every repetition starts from
-    the same cache state instead of the first run paying for all the others.
-    """
+    'Run ``fn`` ``n`` times, calling ``setup`` before each run.'
     for _ in range(warmup):
         if setup:
             setup()
@@ -152,13 +137,7 @@ def repeat(
 
 
 def environment(path=None) -> dict:
-    """Provenance for one host.
-
-    ``path`` is the directory the measured layouts live on.  Passing it records
-    the kernel I/O parameters of that device; readahead in particular changes
-    kernel-accounted byte counts for identical files, so a byte model is only
-    comparable across hosts that agree on them.
-    """
+    'Provenance for one host.'
     import pyarrow as pa
 
     from . import paths as _paths

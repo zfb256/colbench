@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FixedLocator, NullLocator, ScalarFormatter
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,7 +67,12 @@ def main(argv=None) -> None:
     ax.plot(tpch_x, tpch_y, marker="s", linewidth=1.8, label="TPC-H SF1 lineitem")
     ax.plot(tpcds_x, tpcds_y, marker="^", linewidth=1.8, label="TPC-DS SF1 store_sales")
     ax.set_xscale("log", base=2)
+    ax.set_xticks([2**e for e in (10, 13, 15, 17, 19, 20)], [f"$2^{{{e}}}$" for e in (10, 13, 15, 17, 19, 20)])
+    ax.minorticks_off()
     ax.set_yscale("log")
+    ax.yaxis.set_major_locator(FixedLocator([1, 2, 4, 8]))
+    ax.yaxis.set_minor_locator(NullLocator())
+    ax.yaxis.set_major_formatter(ScalarFormatter())
     ax.set_xlabel("Parquet row-group size (rows)")
     ax.set_ylabel("Cold shuffle time / best")
     ax.grid(True, axis="y", color="#dddddd", linewidth=0.7)

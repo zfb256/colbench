@@ -1,13 +1,4 @@
-"""Qualify repeated storage-gate snapshots on a quiescent storage device.
-
-    python scripts/check_gate_stability.py results/gate_report_autodl_*.json
-
-Formal data require an idle RAID (or no MD RAID). ``check`` is deliberately
-blocked even when stable: provider schedulers may pause and resume a scrub, and
-the resulting maintenance traffic is avoidable on the replacement host.
-Recovery, repair, resync, degradation, mismatches, or unstable probe
-performance also fail closed.
-"""
+'Qualify repeated storage-gate snapshots on a quiescent storage device.'
 
 from __future__ import annotations
 
@@ -132,7 +123,6 @@ def main(argv=None) -> int:
             print(f"  BLOCKED: {problem}")
         return 2
 
-    # Bind repeated qualification to the report consumed by the runner.
     authorized = dict(reports[-1])
     authorized["gate_stability"] = {
         "qualified": True,

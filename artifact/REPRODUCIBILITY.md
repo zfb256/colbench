@@ -84,8 +84,10 @@ The selected main run requires a qualified storage gate. The original run intent
 
 ## Independent NVMe Replication
 
-`results/p2_qualified_20260821/` is the formal run and the source of every
-number in the paper. It holds eighteen checkpoints and 504 cells across three
+`results/p2_qualified_20260821/` is the formal run and the source of the main
+cross-format tables and three packaged plots. Reader-policy controls and
+auxiliary mechanism checks use the separately labeled result sets below and
+in `results/README.md`. The formal run holds eighteen checkpoints and 504 cells across three
 datasets, three formats and five access patterns, measured on XFS over a
 three-device NVMe RAID5 array with 540.6 GB of memory. Three storage gates
 passed at 1,834--2,018 MB/s with 0.089--0.093 ms median cold random reads, and
@@ -93,10 +95,12 @@ passed at 1,834--2,018 MB/s with 0.089--0.093 ms median cold random reads, and
 cell retains seven raw samples, and each records the layout its writer actually
 emitted alongside the value requested.
 
-`results/autodl_nvme_clean_20260816/` is the same workload under the discarded
-reader protocol, which reopened the file for every batch. It is retained as the
-control group for the reader-lifetime result and must not be pooled with the
-formal run.
+The reader-lifetime comparison in the paper comes from same-host probes stored
+with the formal run: `probe_metadata_direct_c1024.log`,
+`probe_metadata_direct_c8192.log`, and `probe_metadata_footer.log` in
+`results/p2_qualified_20260821/`. `results/autodl_nvme_clean_20260816/` is an
+earlier run under the per-batch reader protocol on a different host. It is kept
+for audit history and must not be pooled with the formal run.
 
 `results/autodl_nvme/` preserves the earlier AutoDL run for audit history. Its
 MD mismatch counter was 384, so it is not selected by the comparison script or
@@ -178,6 +182,64 @@ The deterministic 200,000-row result is stored in
 `results/orc_layout_probe.json`. ORC is now a timed candidate as well, so this
 probe supports the capability table while `results/p2_qualified_20260821/`
 carries its performance results.
+
+## Reader Policy and Evidence Scope
+
+One timed repetition executes the complete access plan with one reader per
+access. Cache preparation happens before timing; reader initialization is
+part of the access cost. Reopening a reader for each of the 64 shuffle batches
+is the discarded protocol, not an alternative implementation of the same
+measurement. The RAID1 control and RAID5 formal sweep also differ in hardware,
+so their 77.93x and 8.58x spans alone do not isolate the reader-policy effect.
+The same-host direct probes isolate that effect: 236.963 versus 15.053 seconds
+at 1,024 rows, and 27.663 versus 3.276 seconds at 8,192 rows.
+
+The packaged 504 formal records predate the `protocol` field. Their reader
+scope must be checked against the run records and direct-probe logs; it cannot
+be recovered from a nonexistent JSONL field. New runs record `reader_scope`,
+protocol schema, and a measurement-source digest. Comment-only source edits
+change that digest without changing the measurement algorithm; do not rewrite
+historical records to attach the current digest or protocol fields.
+
+Requested grouping arguments do not establish physical equivalence. Parquet
+uses rows, ORC uses one measured bytes-per-row conversion per dataset, and the
+tested Lance grouping argument emits a singleton layout under a fixed file
+cap. The six Lance cells measure one file, so the default-point leader is decided
+against their median and optimized comparisons are reported against their full
+range, which serves as the tie band. ORC's omitted-argument default falls
+between the 524,288- and 1,048,576-row cells, and every ORC default-pairing
+value is reported at both neighbors. The unsigned-column widening applies to every writer.
+
+Regenerate the full-grid inflation table and the read-versus-cost table (paper
+Tables 7 and 8) from `artifact/`:
+
+```bash
+python scripts/report_grid.py results/p2_qualified_20260821
+```
+
+Regenerate the formal table summaries from `artifact/`:
+
+```bash
+python scripts/report_rerun.py results/p2_qualified_20260821
+python scripts/report_rerun.py results/p2_qualified_20260821 --tex
+```
+
+Use separate invocations for separate hosts and protocol generations. The
+summary script reads direct JSONL children and prints noise warnings; it is
+not a substitute for checkpoint and provenance validation.
+
+`probe_metadata_share.py` fits footer cost by default. Its `--direct` option
+reads and decompresses data and must not run alongside timed experiments.
+Supply `--direct-file` to choose the layout, `--threads 1` for the paper's
+thread setting, and `--window 362039` for the ClickBench-32p shuffle. Omitting
+`--columns` uses the paper's ten-column projection when those columns exist;
+other schemas fall back to their first ten columns and are not the same workload.
+
+The auxiliary-host `group_overhead_fit.json` and
+`two_term_model_validation.json` support the model's earlier calibration and
+held-out checks. They do not validate the fitted coefficient on the formal
+RAID5 run. Readahead experiments and Windows references have separate evidence
+scopes as described in `results/README.md`.
 
 `scripts/probe_orc_default_mapping.py` and `scripts/probe_lance_default_mapping.py`
 locate each writer's default point by omitting the argument rather than assuming

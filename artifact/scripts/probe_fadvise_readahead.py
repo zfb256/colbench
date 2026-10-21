@@ -1,22 +1,5 @@
 #!/usr/bin/env python
-"""Can we manipulate kernel readahead without root or writable sysfs?
-
-AutoDL's container mounts sysfs read-only and hides /dev/md0, so the planned
-dose-response on ``read_ahead_kb`` cannot run there.  ``posix_fadvise`` is the
-unprivileged alternative: on Linux it sets the readahead window *per open file*
-to 0 (``RANDOM``), the device default (``NORMAL``), or twice the default
-(``SEQUENTIAL``) -- a three-point ladder on exactly the knob under suspicion.
-
-The advice attaches to a file descriptor, so it only counts if it lands on the
-descriptor Parquet actually reads through.  This probe answers three questions
-before any measurement time is spent:
-
-  1. does ``pa.OSFile`` expose a real fd on this host?
-  2. does ``ParquetFile`` read through that fd?
-  3. do kernel-accounted bytes actually move when the advice changes?
-
-Run:  python scripts/probe_fadvise_readahead.py <parquet-file>
-"""
+'Can we manipulate kernel readahead without root or writable sysfs?'
 from __future__ import annotations
 
 import os

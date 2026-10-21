@@ -1,13 +1,4 @@
-"""Synthetic table generation for the controlled sweeps.
-
-Real public datasets carry the paper's empirical claims. This module exists for
-small controlled checks and development runs.
-
-Anything produced here is a *controlled variable*, never evidence about real
-data, and the paper must label it as such.
-
-Everything streams: peak memory is one batch regardless of ``n_rows``.
-"""
+'Synthetic table generation for the controlled sweeps.'
 
 from __future__ import annotations
 
@@ -20,13 +11,7 @@ import pyarrow as pa
 
 @dataclass(frozen=True)
 class TableSpec:
-    """Declarative description of a synthetic table.
-
-    The compressibility knobs matter more than they look: columnar formats
-    differ mostly in how they *encode*, so a table of pure random floats (an
-    encoder's worst case) and a table of low-cardinality strings (best case)
-    can reverse a ranking on their own.  Both are swept.
-    """
+    'Declarative description of a synthetic table.'
 
     n_rows: int
     n_float: int = 8
@@ -59,7 +44,6 @@ class TableSpec:
 
 
 def _string_pool(cardinality: int, rng: np.random.Generator) -> np.ndarray:
-    # Fixed-ish width keeps string length out of the comparison as a confound.
     return np.array([f"val_{i:08d}" for i in range(cardinality)], dtype=object)
 
 
@@ -101,8 +85,7 @@ def _maybe_null(values, null_rate: float, rng, dtype) -> pa.Array:
 
 
 def reader(spec: TableSpec) -> pa.RecordBatchReader:
-    """A :class:`pyarrow.RecordBatchReader` -- what every adapter's ``write``
-    consumes.  Single-use, like any stream."""
+    "A :class:`pyarrow.RecordBatchReader` -- what every adapter's ``write`` consumes."
     return pa.RecordBatchReader.from_batches(spec.schema(), iter_batches(spec))
 
 

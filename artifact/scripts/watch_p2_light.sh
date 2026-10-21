@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Near-zero-overhead P2 watchdog: tiny metadata/sysfs reads every 15 minutes.
 
 set -u
 
