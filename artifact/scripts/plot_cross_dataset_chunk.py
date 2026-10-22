@@ -9,6 +9,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, NullLocator, ScalarFormatter
 
+plt.rcParams["pdf.fonttype"] = 42
+
 
 ROOT = Path(__file__).resolve().parents[1]
 FIGURES = ROOT / "figures"
@@ -40,7 +42,7 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("results_dir", type=Path,
                     help="explicit directory containing the qualified P2 checkpoints")
-    ap.add_argument("--out", type=Path, default=FIGURES / "fig6_cross_dataset_chunk.png")
+    ap.add_argument("--out", type=Path, default=FIGURES / "fig6_cross_dataset_chunk.pdf")
     args = ap.parse_args(argv)
 
     series = {

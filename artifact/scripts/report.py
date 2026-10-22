@@ -100,7 +100,7 @@ def main(argv=None) -> int:
             print("\n  gap_shrinkage > 1 means the advantage reported at defaults")
             print("  partly disappears after optimization over verified layouts.")
 
-        p = analyze.plot_chunk_effect(data, out_dir / "fig4_chunk_effect.png")
+        p = analyze.plot_chunk_effect(data, out_dir / "fig4_chunk_effect.pdf")
         if p:
             print(f"  wrote {p}")
     else:

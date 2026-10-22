@@ -166,8 +166,8 @@ python scripts/plot_cross_dataset_chunk.py results/p2_qualified_20260821
 ```
 
 The three figures used in the paper are regenerated at
-`figures/fig4_chunk_effect.png`, `figures/fig5_read_amplification.png`, and
-`figures/fig6_cross_dataset_chunk.png`.
+`figures/fig4_chunk_effect.pdf`, `figures/fig5_read_amplification.pdf`, and
+`figures/fig6_cross_dataset_chunk.pdf`.
 
 ## ORC Capability Probe
 

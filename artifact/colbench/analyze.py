@@ -250,6 +250,7 @@ def _style():
     import matplotlib.pyplot as plt
 
     plt.rcParams.update({
+        "pdf.fonttype": 42,
         "figure.dpi": 150, "font.size": 9, "axes.grid": True,
         "grid.alpha": 0.3, "axes.spines.top": False, "axes.spines.right": False,
     })

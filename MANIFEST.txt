@@ -20,9 +20,9 @@ artifact/figures/fig1_attribution.pdf
 artifact/figures/fig1_attribution.png
 artifact/figures/fig2_protocol.pdf
 artifact/figures/fig2_protocol.png
-artifact/figures/fig4_chunk_effect.png
-artifact/figures/fig5_read_amplification.png
-artifact/figures/fig6_cross_dataset_chunk.png
+artifact/figures/fig4_chunk_effect.pdf
+artifact/figures/fig5_read_amplification.pdf
+artifact/figures/fig6_cross_dataset_chunk.pdf
 artifact/pytest.ini
 artifact/requirements.txt
 artifact/results/README.md

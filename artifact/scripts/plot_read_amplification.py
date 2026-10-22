@@ -8,6 +8,8 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
+plt.rcParams["pdf.fonttype"] = 42
+
 
 ROOT = Path(__file__).resolve().parents[1]
 FIGURES = ROOT / "figures"
@@ -27,7 +29,7 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("input_csv", type=Path,
                     help="explicit read-amplification CSV from the qualified run")
-    ap.add_argument("--out", type=Path, default=FIGURES / "fig5_read_amplification.png")
+    ap.add_argument("--out", type=Path, default=FIGURES / "fig5_read_amplification.pdf")
     args = ap.parse_args(argv)
 
     rows = sorted(shuffle_rows(args.input_csv), key=lambda r: int(r["chunk_rows"]))
